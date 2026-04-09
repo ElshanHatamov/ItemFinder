@@ -1,4 +1,4 @@
-package com.example.itemfinderapplication.constant;
+package com.example.itemfinderapplication.enums;
 
 public enum ItemType {
     PHONE,

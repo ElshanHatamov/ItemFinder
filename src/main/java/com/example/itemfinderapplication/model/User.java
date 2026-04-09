@@ -1,10 +1,6 @@
-package com.example.itemfinderapplication.entity;
+package com.example.itemfinderapplication.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -12,6 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -36,10 +33,10 @@ public class User {
     String password;
     @CreationTimestamp
     LocalDateTime createAt;
-    @UpdateTimestamp
-    LocalDateTime UpdateAt;
 
     boolean active = true;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    List<Item> itemList;
 
 }

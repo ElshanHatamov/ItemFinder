@@ -1,7 +1,7 @@
 package com.example.itemfinderapplication.repository;
 
-import com.example.itemfinderapplication.constant.ItemStatus;
-import com.example.itemfinderapplication.entity.Item;
+import com.example.itemfinderapplication.enums.ItemStatus;
+import com.example.itemfinderapplication.model.Item;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
