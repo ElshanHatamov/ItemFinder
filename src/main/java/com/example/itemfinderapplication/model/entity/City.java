@@ -1,4 +1,4 @@
-package com.example.itemfinderapplication.model;
+package com.example.itemfinderapplication.model.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;

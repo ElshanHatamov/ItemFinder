@@ -1,4 +1,4 @@
-package com.example.itemfinderapplication.model;
+package com.example.itemfinderapplication.model.entity;
 
 import com.example.itemfinderapplication.enums.ItemStatus;
 import com.example.itemfinderapplication.enums.ItemType;
