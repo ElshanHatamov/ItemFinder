@@ -33,6 +33,8 @@ public class RefreshToken {
 //
 //    String ipAdress;
 
+    boolean revoked = false;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     User user;

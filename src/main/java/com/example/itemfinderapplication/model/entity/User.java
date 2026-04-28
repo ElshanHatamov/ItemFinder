@@ -40,11 +40,13 @@ public class User {
 
     boolean active = true;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    List<Item> itemList;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    private List<Item> itemList = new ArrayList<>();
 
     @OneToMany(mappedBy = "user",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
+    @ToString.Exclude
     List<RefreshToken> refreshTokens = new ArrayList<>();
 }
