@@ -23,10 +23,12 @@ public class Item {
     String tittle;
 
     @Enumerated(EnumType.STRING)
+    @NotBlank
     @Column(nullable = false)
     ItemStatus status;
 
     @Enumerated(EnumType.STRING)
+    @NotBlank
     @Column(nullable = false)
     ItemType itemType;
 

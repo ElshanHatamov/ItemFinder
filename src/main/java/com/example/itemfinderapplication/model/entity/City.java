@@ -17,6 +17,7 @@ public class City {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     @NotBlank
+    @Column(nullable = false)
     String name;
     @OneToMany(mappedBy = "city", cascade = CascadeType.ALL)
     List<Item> itemList;
