@@ -1,5 +1,6 @@
 package com.example.itemfinderapplication.service;
 
+import com.example.itemfinderapplication.enums.Role;
 import com.example.itemfinderapplication.model.dto.request.RefreshRequest;
 import com.example.itemfinderapplication.model.dto.request.RegisterRequest;
 import com.example.itemfinderapplication.model.dto.response.AuthResponse;
@@ -65,6 +66,7 @@ public class AuthService {
         user.setEmail(request.getEmail());
         user.setPhone(request.getPhone());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setRole(Role.USER);
         userRepository.save(user);
 
         String accessToken = jwtService.generateToken(user.getEmail());

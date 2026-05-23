@@ -1,5 +1,6 @@
 package com.example.itemfinderapplication.model.entity;
 
+import com.example.itemfinderapplication.enums.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -49,4 +50,8 @@ public class User {
             orphanRemoval = true)
     @ToString.Exclude
     List<RefreshToken> refreshTokens = new ArrayList<>();
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    Role role;
 }
