@@ -4,6 +4,7 @@ import com.example.itemfinderapplication.enums.ItemStatus;
 import com.example.itemfinderapplication.enums.ItemType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
@@ -23,12 +24,12 @@ public class Item {
     String tittle;
 
     @Enumerated(EnumType.STRING)
-    @NotBlank
+    @NotNull(message = "Status secilmelidir")
     @Column(nullable = false)
     ItemStatus status;
 
     @Enumerated(EnumType.STRING)
-    @NotBlank
+    @NotNull(message = "Esya novu secilmelidir")
     @Column(nullable = false)
     ItemType itemType;
 

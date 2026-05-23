@@ -35,7 +35,16 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/users").permitAll()
                         .requestMatchers("/auth/**").permitAll()
+                        // Butun itemləri hami gorsun — tokene ehtiyac qalmayacaq
+                        .requestMatchers(HttpMethod.GET, "/api/items/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/cities/**").permitAll()
+
+                        // Esya yerlesdirmek ucun token lazimdir
+                        .requestMatchers(HttpMethod.POST, "/api/items/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/cities/**").authenticated()
+
                         .anyRequest().authenticated()
+
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
@@ -45,8 +54,10 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
+
     @Bean
-    public PasswordEncoder passwordEncoder () {return new BCryptPasswordEncoder();
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
 }
