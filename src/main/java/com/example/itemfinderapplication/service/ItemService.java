@@ -110,6 +110,7 @@ public class ItemService {
             item.setCity(city);
         }
         Item saved = itemRepository.save(item);
+        log.info("Esya yenilendi: id={}, ownerEmail={}", saved.getId(), ownerEmail);
         return toResponse(saved);
     }
 
@@ -122,5 +123,6 @@ public class ItemService {
             throw new RuntimeException("User Tapilmadi ");
         }
         itemRepository.delete(item);
+        log.info("Esya silindi: id={}, ownerEmail={}", id, ownerEmail);
     }
 }
