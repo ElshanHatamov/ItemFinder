@@ -2,6 +2,7 @@ package com.example.itemfinderapplication.service;
 
 import com.example.itemfinderapplication.enums.ItemStatus;
 import com.example.itemfinderapplication.model.dto.request.ItemRequest;
+import com.example.itemfinderapplication.model.dto.request.ItemUpdateRequest;
 import com.example.itemfinderapplication.model.dto.response.ItemResponse;
 import com.example.itemfinderapplication.model.entity.City;
 import com.example.itemfinderapplication.model.entity.Item;
@@ -70,6 +71,7 @@ public class ItemService {
                 .collect(Collectors.toList());
     }
 
+
     private ItemResponse toResponse(Item item) {
         return ItemResponse.builder()
                 .id(item.getId())
@@ -81,5 +83,44 @@ public class ItemService {
                 .createAt(item.getCreateAt())
                 .build();
 
+    }
+
+    @Transactional
+    public ItemResponse updateItem(Long id, ItemUpdateRequest request, String ownerEmail) {
+
+        Item item = itemRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Esya Tapilmadi " + id));
+
+        if (!item.getUser().getEmail().equals(ownerEmail)) {
+            throw new RuntimeException("Bu esya sizin deyil");
+        }
+
+        if (request.getTittle() != null && !request.getTittle().isBlank()) {
+            item.setTittle(request.getTittle());
+        }
+        if (request.getItemStatus() != null) {
+            item.setStatus(request.getItemStatus());
+        }
+        if (request.getItemType() != null) {
+            item.setItemType(request.getItemType());
+        }
+        if (request.getCityId() != null) {
+            City city = cityRepository.findById(request.getCityId())
+                    .orElseThrow(() -> new RuntimeException("Seher tapilmadi " + request.getCityId()));
+            item.setCity(city);
+        }
+        Item saved = itemRepository.save(item);
+        return toResponse(saved);
+    }
+
+    @Transactional
+    public void deleteItem(Long id, String ownerEmail) {
+        Item item = itemRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Esya tapilmadi " + id));
+
+        if (!item.getUser().getEmail().equals(ownerEmail)) {
+            throw new RuntimeException("User Tapilmadi ");
+        }
+        itemRepository.delete(item);
     }
 }
