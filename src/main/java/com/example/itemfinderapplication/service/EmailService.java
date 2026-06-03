@@ -21,5 +21,8 @@ public class EmailService {
         mailMessage.setTo(toEmail);
         mailMessage.setSubject("Hesabiniza yeni giris qeyde alindi ");
         mailMessage.setText("Salam,\n\nHesabınıza uğurla giriş edildi. Əgər bu əməliyyatı siz etməmisinizsə, dərhal şifrənizi dəyişməyinizi tövsiyə edirik.");
+
+        // mektubu gonderen emr
+        mailSender.send(mailMessage);
     }
 }
