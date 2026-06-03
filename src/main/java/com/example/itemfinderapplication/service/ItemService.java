@@ -92,7 +92,7 @@ public class ItemService {
                 .orElseThrow(() -> new RuntimeException("Esya Tapilmadi " + id));
 
         if (!item.getUser().getEmail().equals(ownerEmail)) {
-            throw new RuntimeException("Bu esya sizin deyil");
+            throw new RuntimeException("Bu esya sizin deyil: ");
         }
 
         if (request.getTittle() != null && !request.getTittle().isBlank()) {
@@ -117,12 +117,30 @@ public class ItemService {
     @Transactional
     public void deleteItem(Long id, String ownerEmail) {
         Item item = itemRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Esya tapilmadi " + id));
+                .orElseThrow(() -> new RuntimeException("Esya tapilmadi. ID" + id));
 
         if (!item.getUser().getEmail().equals(ownerEmail)) {
             throw new RuntimeException("User Tapilmadi ");
         }
         itemRepository.delete(item);
         log.info("Esya silindi: id={}, ownerEmail={}", id, ownerEmail);
+    }
+
+    public ItemResponse getItemById(Long id, String ownerEmail) {
+        Item item = itemRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Mehsul Tapilmadi "));
+        if (!item.getUser().getEmail().equals(ownerEmail)) {
+            throw new RuntimeException("Bu esya sizin deyil ");
+        }
+
+        return toResponse(item);
+    }
+
+    public List<ItemResponse> getItemsByUser(String ownerEmail) {
+        return itemRepository.findByUserEmail(ownerEmail)
+                .stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
+
     }
 }

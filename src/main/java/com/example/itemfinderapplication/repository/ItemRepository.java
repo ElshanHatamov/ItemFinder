@@ -2,6 +2,7 @@ package com.example.itemfinderapplication.repository;
 
 import com.example.itemfinderapplication.enums.ItemStatus;
 import com.example.itemfinderapplication.enums.ItemType;
+import com.example.itemfinderapplication.model.dto.response.ItemResponse;
 import com.example.itemfinderapplication.model.entity.Item;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -17,4 +18,9 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 
     // Novlere gore itirilmis esyalar
     List<Item> findByItemTypeAndStatus(ItemType itemType, ItemStatus itemStatus);
+
+    // ID ye gore olan esyalar
+    List<Item> getItemsById(Long id);
+
+    List<Item> findByUserEmail(String ownerEmail);
 }

@@ -35,7 +35,7 @@ public class CityService {
         city.setName(request.getName());
 
         City saved = cityRepository.save(city);
-        log.info("Yeni seher elave edildi: name={}", saved.getName())
+        log.info("Yeni seher elave edildi: name={}", saved.getName());
 
         return CityResponse.builder()
                 .id(saved.getId())

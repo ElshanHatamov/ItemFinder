@@ -50,7 +50,7 @@ public class ItemController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ItemResponse> updateItem(@PathVariable Long id,
+    public ResponseEntity<ItemResponse> updateItem(@Valid @PathVariable Long id,
                                                    @RequestBody ItemUpdateRequest updateRequest,
                                                    @AuthenticationPrincipal CustomUserDetails userDetails) {
         return ResponseEntity.ok(
@@ -63,5 +63,20 @@ public class ItemController {
                                            @AuthenticationPrincipal CustomUserDetails userDetails) {
         itemService.deleteItem(id, userDetails.getUsername());
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ItemResponse> getItemById(@PathVariable Long id,
+                                                    @AuthenticationPrincipal CustomUserDetails userDetails) {
+        return ResponseEntity.ok(
+                itemService.getItemById(id, userDetails.getUsername())
+        );
+    }
+
+    @GetMapping("/my-items")
+    public ResponseEntity<List<ItemResponse>> getItemsByUser(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        return ResponseEntity.ok(
+                itemService.getItemsByUser(userDetails.getUsername())
+        );
     }
 }
