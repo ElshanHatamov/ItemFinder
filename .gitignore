@@ -36,9 +36,10 @@ out/
 ### VS Code ###
 .vscode/
 
-### TƏHLÜKƏSİZLİK VƏ ÖZƏL TƏNZİMLƏMƏLƏR ###
 # Gmail şifrəsi və database parolları olan fayl GitHub-a getməsin
+### TƏHLÜKƏSİZLİK VƏ ÖZƏL TƏNZİMLƏMƏLƏR ###
 src/main/resources/application.yml
+src/main/resources/application.yaml
 
 # IntelliJ-nin bəzi gərəksiz kənar faylları
 .idea/
