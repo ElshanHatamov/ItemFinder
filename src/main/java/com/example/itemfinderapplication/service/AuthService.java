@@ -19,6 +19,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
@@ -49,6 +50,8 @@ public class AuthService {
         }
 
         return new LoginResponse(accessToken, refreshToken.getToken());
+
+
     }
 
     public LoginResponse refresh(String refreshToken) {

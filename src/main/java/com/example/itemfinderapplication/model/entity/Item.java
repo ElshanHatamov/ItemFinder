@@ -38,11 +38,11 @@ public class Item {
     LocalDateTime createAt;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id",nullable = false)
     User user;
 
     @ManyToOne
-    @JoinColumn(name = "city_id")
+    @JoinColumn(name = "city_id",nullable = false)
     City city;
 
 }
