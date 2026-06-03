@@ -33,18 +33,28 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+                        // Qeydiyyat ve Giris endpointlre her kes gire bilsin
                         .requestMatchers(HttpMethod.POST, "/users").permitAll()
                         .requestMatchers("/auth/**").permitAll()
-                        // Butun itemləri hami gorsun — tokene ehtiyac qalmayacaq
-                        .requestMatchers(HttpMethod.GET, "/api/items/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/cities/**").permitAll()
 
-                        // Esya yerlesdirmek ucun token lazimdir
+                        // Xüsusi GET endpointləri Mutleq TOKEN teleb edir
+                        // BU setri umumi getden yuxarida olmalidir deye burada yazmisam
+                        .requestMatchers(HttpMethod.GET, "/api/items/my-items").authenticated()
+
+                       // Umumi get pointleri herkes elanlara baxa bilsin deye
+                        // Bura bütün elanları listələyən (/api/items) endpointin aiddir
+                        .requestMatchers(HttpMethod.GET, "/api/items").permitAll()
+
+                        // Eger id ye gore axtarirsa login olmalidi
+                        .requestMatchers(HttpMethod.GET, "/api/items/{id}").authenticated()
+
+                        // Melumat yerlesdirmek (POST) ucun yoken mutleq lazimdir
                         .requestMatchers(HttpMethod.POST, "/api/items/**").authenticated()
                         .requestMatchers(HttpMethod.POST, "/api/cities/**").authenticated()
 
+                        // Qalan butun sorgular token teleb edir
                         .anyRequest().authenticated()
-
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
