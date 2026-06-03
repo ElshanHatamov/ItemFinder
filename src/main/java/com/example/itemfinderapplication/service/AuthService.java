@@ -1,7 +1,6 @@
 package com.example.itemfinderapplication.service;
 
 import com.example.itemfinderapplication.enums.Role;
-import com.example.itemfinderapplication.model.dto.request.RefreshRequest;
 import com.example.itemfinderapplication.model.dto.request.RegisterRequest;
 import com.example.itemfinderapplication.model.dto.response.AuthResponse;
 import com.example.itemfinderapplication.model.dto.response.LoginResponse;
@@ -30,6 +29,7 @@ public class AuthService {
     RefreshTokenService refreshTokenService;
     UserRepository userRepository;
     PasswordEncoder passwordEncoder;
+    EmailService emailService;
 
     public LoginResponse login(String email, String password) {
         Authentication auth = authenticationManager.authenticate(
@@ -39,6 +39,14 @@ public class AuthService {
                 .orElseThrow(() -> new RuntimeException("User tapilmadi"));
         String accessToken = jwtService.generateToken(user.getEmail());
         RefreshToken refreshToken = refreshTokenService.create(user);
+
+        // Giris ugurlu olduqdan sonra emaili buradan gonderilecek
+        try {
+            emailService.sendLoginNotification(user.getEmail());
+        } catch (Exception e) {
+            // email serverde pronblem yaransada program cokmur catch edir tutur
+            System.out.println("Email göndərilərkən xəta baş verdi: " + e.getMessage());
+        }
 
         return new LoginResponse(accessToken, refreshToken.getToken());
     }
@@ -76,4 +84,3 @@ public class AuthService {
         return new AuthResponse(accessToken, refreshToken.getToken(), userResponse);
     }
 }
-
