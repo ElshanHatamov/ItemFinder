@@ -13,13 +13,14 @@ import com.example.itemfinderapplication.security.refresh.RefreshTokenService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
@@ -44,6 +45,8 @@ public class AuthService {
         // Giris ugurlu olduqdan sonra emaili buradan gonderilecek
         try {
             emailService.sendLoginNotification(user.getEmail());
+            log.info("Emaile mesaj gonderildi " + user.getEmail());
+
         } catch (Exception e) {
             // email serverde pronblem yaransada program cokmur catch edir tutur
             System.out.println("Email göndərilərkən xəta baş verdi: " + e.getMessage());
