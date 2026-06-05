@@ -66,10 +66,9 @@ public class ItemController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ItemResponse> getItemById(@PathVariable Long id,
-                                                    @AuthenticationPrincipal CustomUserDetails userDetails) {
+    public ResponseEntity<ItemResponse> getItemById(@PathVariable Long id) {
         return ResponseEntity.ok(
-                itemService.getItemById(id, userDetails.getUsername())
+                itemService.getItemById(id)
         );
     }
 

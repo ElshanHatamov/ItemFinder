@@ -126,13 +126,9 @@ public class ItemService {
         log.info("Esya silindi: id={}, ownerEmail={}", id, ownerEmail);
     }
 
-    public ItemResponse getItemById(Long id, String ownerEmail) {
+    public ItemResponse getItemById(Long id) {
         Item item = itemRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Mehsul Tapilmadi "));
-        if (!item.getUser().getEmail().equals(ownerEmail)) {
-            throw new RuntimeException("Bu esya sizin deyil ");
-        }
-
         return toResponse(item);
     }
 
