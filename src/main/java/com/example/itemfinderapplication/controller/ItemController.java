@@ -11,6 +11,9 @@ import org.springframework.web.multipart.MultipartFile;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.MediaType;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -25,13 +28,17 @@ import java.util.List;
 public class ItemController {
 
     ItemService itemService;
+    ObjectMapper objectMapper;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ItemResponse> createItem(
-            @Valid @RequestPart("request") ItemRequest request,
+            @RequestPart("request") String requestJson,
             @RequestPart("image") MultipartFile image,
             @AuthenticationPrincipal CustomUserDetails userDetails
-    ) {
+    ) throws Exception {
+
+        ItemRequest request = objectMapper.readValue(requestJson, ItemRequest.class);
+
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(itemService.creatItem(

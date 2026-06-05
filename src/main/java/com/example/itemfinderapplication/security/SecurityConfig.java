@@ -59,7 +59,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/items/{id}").authenticated()
 
                         // Melumat yerlesdirmek (POST) ucun yoken mutleq lazimdir
-                        .requestMatchers(HttpMethod.POST, "/api/items/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/items", "/api/items/**").authenticated()
                         .requestMatchers(HttpMethod.POST, "/api/cities/**").authenticated()
 
                         // Qalan butun sorgular token teleb edir

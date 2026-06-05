@@ -54,6 +54,7 @@ public class JwtFilter extends OncePerRequestFilter {
                 }
             }
         } catch (Exception e) {
+            System.out.println("JWT ERROR: " + e.getMessage());
             // yanlis token yazsam davam edir
         }
 
