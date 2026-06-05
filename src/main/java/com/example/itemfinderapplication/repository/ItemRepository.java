@@ -2,7 +2,6 @@ package com.example.itemfinderapplication.repository;
 
 import com.example.itemfinderapplication.enums.ItemStatus;
 import com.example.itemfinderapplication.enums.ItemType;
-import com.example.itemfinderapplication.model.dto.response.ItemResponse;
 import com.example.itemfinderapplication.model.entity.Item;
 import org.springframework.data.jpa.repository.JpaRepository;
 
