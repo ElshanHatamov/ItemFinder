@@ -10,12 +10,11 @@ import com.example.itemfinderapplication.model.entity.User;
 import com.example.itemfinderapplication.repository.CityRepository;
 import com.example.itemfinderapplication.repository.ItemRepository;
 import com.example.itemfinderapplication.repository.UserRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,6 +24,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@Transactional(readOnly = true)
 public class ItemService {
 
 
@@ -142,6 +142,7 @@ public class ItemService {
     }
 
     // Tapilmis esyalari isareleyir
+    @Transactional
     public ItemResponse markAsFound(Long id, String ownerEmail) {
 
         Item item = itemRepository.findById(id)
