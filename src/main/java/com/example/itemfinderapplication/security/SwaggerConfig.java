@@ -1,4 +1,4 @@
-package com.example.itemfinderapplication.config;
+package com.example.itemfinderapplication.security;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
