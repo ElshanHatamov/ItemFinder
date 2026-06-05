@@ -6,9 +6,10 @@ import com.example.itemfinderapplication.model.dto.response.ItemResponse;
 import com.example.itemfinderapplication.security.CustomUserDetails;
 import com.example.itemfinderapplication.service.ItemService;
 import jakarta.validation.Valid;
+import org.springframework.http.MediaType;
+import org.springframework.web.multipart.MultipartFile;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import lombok.experimental.Delegate;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,22 +26,19 @@ public class ItemController {
 
     ItemService itemService;
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ItemResponse> createItem(
-            @Valid @RequestBody ItemRequest request,
+            @Valid @RequestPart("request") ItemRequest request,
+            @RequestPart("image") MultipartFile image,
             @AuthenticationPrincipal CustomUserDetails userDetails
     ) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(itemService.creatItem(
                         request,
+                        image,
                         userDetails.getUsername()
                 ));
-    }
-
-    @GetMapping
-    public ResponseEntity<List<ItemResponse>> getAllLostItems() {
-        return ResponseEntity.ok(itemService.getAllLostItems());
     }
 
     @GetMapping("/city/{cityId}")
@@ -78,6 +76,7 @@ public class ItemController {
                 itemService.getItemsByUser(userDetails.getUsername())
         );
     }
+
     // Yalniz bir saheni yenilemek ucun
     @PatchMapping("/{id}/found")
     public ResponseEntity<ItemResponse> markAsFound(@PathVariable Long id,

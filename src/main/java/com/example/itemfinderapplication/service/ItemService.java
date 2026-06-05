@@ -11,6 +11,7 @@ import com.example.itemfinderapplication.repository.CityRepository;
 import com.example.itemfinderapplication.repository.ItemRepository;
 import com.example.itemfinderapplication.repository.UserRepository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -31,9 +32,12 @@ public class ItemService {
     ItemRepository itemRepository;
     CityRepository cityRepository;
     UserRepository userRepository;
+    FileStorageService fileStorageService;
 
     @Transactional
-    public ItemResponse creatItem(ItemRequest request, String ownerEmail) {
+    public ItemResponse creatItem(ItemRequest request,
+                                  MultipartFile image,
+                                  String ownerEmail) {
 
         City city = cityRepository.findById(request.getCityId())
                 .orElseThrow(() -> new RuntimeException(
@@ -43,12 +47,15 @@ public class ItemService {
                 .orElseThrow(() -> new RuntimeException(
                         "Istifadeci tapilmadi"));
 
+        String imageUrl = fileStorageService.saveFile(image);
+
         Item item = new Item();
         item.setTittle(request.getTittle());
         item.setStatus(request.getItemStatus());
         item.setItemType(request.getItemType());
         item.setCity(city);
         item.setUser(owner);
+        item.setImageUrl(imageUrl);
         // createAt → @CreationTimestamp avtomatik yazilir
         Item saved = itemRepository.save(item);
 
@@ -81,6 +88,7 @@ public class ItemService {
                 .itemType(item.getItemType())
                 .cityName(item.getCity().getName())
                 .ownerEmail(item.getUser().getEmail())
+                .imageUrl(item.getImageUrl())
                 .createAt(item.getCreateAt())
                 .build();
 

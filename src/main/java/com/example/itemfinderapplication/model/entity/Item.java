@@ -33,6 +33,9 @@ public class Item {
     @Column(nullable = false)
     ItemType itemType;
 
+    @Column(name = "image_url",length = 500)
+    String imageUrl; // Bazada sadece seklin adini yazacaq bu field (meselen bu terz:: "qara-pul-qabi-123.jpg")
+
     @Column(nullable = false)
     @CreationTimestamp
     LocalDateTime createAt;

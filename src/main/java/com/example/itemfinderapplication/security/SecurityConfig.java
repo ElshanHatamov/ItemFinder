@@ -41,12 +41,15 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
-                                "/swagger-ui.html"
+                                "/swagger-ui.html",
+                                "/uploads/**"
                         ).permitAll()
 
                         // Xüsusi GET endpointləri Mutleq TOKEN teleb edir
                         // BU setri umumi getden yuxarida olmalidir deye burada yazmisam
                         .requestMatchers(HttpMethod.GET, "/api/items/my-items").authenticated()
+
+                        .requestMatchers("/uploads/**").permitAll()
 
                         // Umumi get pointleri herkes elanlara baxa bilsin deye
                         // Bura bütün elanları listələyən (/api/items) endpointin aiddir
