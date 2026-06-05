@@ -34,6 +34,8 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         // Qeydiyyat ve Giris endpointlre her kes gire bilsin
+
+                        .requestMatchers("/uploads/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/users").permitAll()
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/cities/**").permitAll()
@@ -48,8 +50,6 @@ public class SecurityConfig {
                         // Xüsusi GET endpointləri Mutleq TOKEN teleb edir
                         // BU setri umumi getden yuxarida olmalidir deye burada yazmisam
                         .requestMatchers(HttpMethod.GET, "/api/items/my-items").authenticated()
-
-                        .requestMatchers("/uploads/**").permitAll()
 
                         // Umumi get pointleri herkes elanlara baxa bilsin deye
                         // Bura bütün elanları listələyən (/api/items) endpointin aiddir
