@@ -78,4 +78,12 @@ public class ItemController {
                 itemService.getItemsByUser(userDetails.getUsername())
         );
     }
+    // Yalniz bir saheni yenilemek ucun
+    @PatchMapping("/{id}/found")
+    public ResponseEntity<ItemResponse> markAsFound(@PathVariable Long id,
+                                                    @AuthenticationPrincipal CustomUserDetails userDetails) {
+        return ResponseEntity.ok(
+                itemService.markAsFound(id, userDetails.getUsername())
+        );
+    }
 }

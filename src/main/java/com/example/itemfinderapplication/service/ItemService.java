@@ -15,6 +15,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -137,6 +138,20 @@ public class ItemService {
                 .stream()
                 .map(this::toResponse)
                 .collect(Collectors.toList());
+
+    }
+
+    // Tapilmis esyalari isareleyir
+    public ItemResponse markAsFound(Long id, String ownerEmail) {
+
+        Item item = itemRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Mehsul Tapilmadi"));
+        if (!item.getUser().getEmail().equals(ownerEmail)) {
+            throw new RuntimeException("Bu esya sizin deyil ");
+        }
+        item.setStatus(ItemStatus.FOUND);
+        Item saved = itemRepository.save(item);
+        return toResponse(saved);
 
     }
 }
