@@ -44,3 +44,6 @@ src/main/resources/application.yaml
 # IntelliJ-nin bəzi gərəksiz kənar faylları
 .idea/
 *.iml
+# TƏHLÜKƏSİZLİK
+.env
+docker-compose.yml
