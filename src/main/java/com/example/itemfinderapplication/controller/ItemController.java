@@ -12,8 +12,6 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.http.MediaType;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -37,6 +35,7 @@ public class ItemController {
             @AuthenticationPrincipal CustomUserDetails userDetails
     ) throws Exception {
 
+        // JSON-U ITEMREQUEST OBYEKTINE CEVIRIR
         ItemRequest request = objectMapper.readValue(requestJson, ItemRequest.class);
 
         return ResponseEntity
@@ -92,4 +91,12 @@ public class ItemController {
                 itemService.markAsFound(id, userDetails.getUsername())
         );
     }
+
+    @GetMapping
+    public ResponseEntity<List<ItemResponse>> getAllLostItems() {
+        return ResponseEntity.ok(
+                itemService.getAllLostItems()
+        );
+    }
+
 }
