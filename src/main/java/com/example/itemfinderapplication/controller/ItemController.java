@@ -1,5 +1,7 @@
 package com.example.itemfinderapplication.controller;
 
+import com.example.itemfinderapplication.enums.ItemStatus;
+import com.example.itemfinderapplication.enums.ItemType;
 import com.example.itemfinderapplication.model.dto.request.ItemRequest;
 import com.example.itemfinderapplication.model.dto.request.ItemUpdateRequest;
 import com.example.itemfinderapplication.model.dto.response.ItemResponse;
@@ -96,6 +98,17 @@ public class ItemController {
     public ResponseEntity<List<ItemResponse>> getAllLostItems() {
         return ResponseEntity.ok(
                 itemService.getAllLostItems()
+        );
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<ItemResponse>> searchItems(
+            @RequestParam(required = false) Long cityId,
+            @RequestParam(required = false) ItemType itemType,
+            @RequestParam(required = false) ItemStatus itemStatus
+    ) {
+        return ResponseEntity.ok(
+                itemService.searchItems(cityId, itemType, itemStatus)
         );
     }
 

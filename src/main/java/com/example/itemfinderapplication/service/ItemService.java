@@ -1,6 +1,7 @@
 package com.example.itemfinderapplication.service;
 
 import com.example.itemfinderapplication.enums.ItemStatus;
+import com.example.itemfinderapplication.enums.ItemType;
 import com.example.itemfinderapplication.model.dto.request.ItemRequest;
 import com.example.itemfinderapplication.model.dto.request.ItemUpdateRequest;
 import com.example.itemfinderapplication.model.dto.response.ItemResponse;
@@ -161,6 +162,16 @@ public class ItemService {
         item.setStatus(ItemStatus.FOUND);
         Item saved = itemRepository.save(item);
         return toResponse(saved);
+
+    }
+
+    public List<ItemResponse> searchItems(Long cityId,
+                                          ItemType itemType,
+                                          ItemStatus itemStatus) {
+        return itemRepository.searchItems(cityId, itemType, itemStatus)
+                .stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
 
     }
 }

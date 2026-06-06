@@ -42,6 +42,7 @@ public class GlobalExceptionHandler {
     ResponseEntity<Map<String, String>> handleBadCredentials(BadCredentialsException ex) {
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
+                // BELE YAZMAGIMIN SEBBEI HACKERLER DEQIQ BILMESIN EMAIL YANLISDIR YOXSA SIFRE!
                 .body(Map.of("error","Email ve ya Sifre yanlisdir"));
     }
     @ExceptionHandler(UsernameNotFoundException.class)

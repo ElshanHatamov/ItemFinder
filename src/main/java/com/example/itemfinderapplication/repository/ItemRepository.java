@@ -4,6 +4,8 @@ import com.example.itemfinderapplication.enums.ItemStatus;
 import com.example.itemfinderapplication.enums.ItemType;
 import com.example.itemfinderapplication.model.entity.Item;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -22,4 +24,17 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     List<Item> getItemsById(Long id);
 
     List<Item> findByUserEmail(String ownerEmail);
+
+    @Query("""
+        SELECT i FROM Item i
+        WHERE (:cityId IS NULL OR i.city.id = :cityId)
+          AND (:itemType IS NULL OR i.itemType = :itemType)
+          AND (:status IS NULL OR i.status = :status)
+        ORDER BY i.createAt DESC
+        """)
+    List<Item> searchItems(
+            @Param("cityId") Long cityId,
+            @Param("itemType") ItemType itemType,
+            @Param("status") ItemStatus status
+    );
 }
