@@ -18,6 +18,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 
 import java.util.List;
 
@@ -95,21 +99,32 @@ public class ItemController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ItemResponse>> getAllLostItems() {
+    public ResponseEntity<Page<ItemResponse>> getAllLostItems(
+            @PageableDefault(
+                    size = 10,
+                    sort = "createAt",
+                    direction = Sort.Direction.DESC
+            ) Pageable pageable
+    ) {
         return ResponseEntity.ok(
-                itemService.getAllLostItems()
+                itemService.getAllLostItems(pageable)
         );
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<ItemResponse>> searchItems(
+    public ResponseEntity<Page<ItemResponse>> searchItems(
             @RequestParam(required = false) Long cityId,
             @RequestParam(required = false) ItemType itemType,
-            @RequestParam(required = false) ItemStatus itemStatus
+            @RequestParam(required = false) ItemStatus itemStatus,
+            @PageableDefault(
+                    size = 10,
+                    sort = "createAt",
+                    direction = Sort.Direction.DESC
+            ) Pageable pageable
     ) {
         return ResponseEntity.ok(
-                itemService.searchItems(cityId, itemType, itemStatus)
+                itemService.searchItems(cityId, itemType, itemStatus, pageable)
         );
     }
-
 }
+

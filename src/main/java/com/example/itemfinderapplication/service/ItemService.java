@@ -20,6 +20,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -68,11 +70,10 @@ public class ItemService {
         return toResponse(saved);
     }
 
-    public List<ItemResponse> getAllLostItems() {
-        return itemRepository.findByStatus(ItemStatus.LOST)
-                .stream()
-                .map(this::toResponse)
-                .collect(Collectors.toList());
+    public Page<ItemResponse> getAllLostItems(Pageable pageable) {
+        return itemRepository.findByStatus(ItemStatus.LOST, pageable)
+                .map(this::toResponse);
+
     }
 
     public List<ItemResponse> getLostItemsByCity(Long cityId) {
@@ -132,7 +133,7 @@ public class ItemService {
                 .orElseThrow(() -> new NotFoundException("Esya tapilmadi. ID" + id));
 
         if (!item.getUser().getEmail().equals(ownerEmail)) {
-            throw new UnauthorizedActionException("Bu esya sizin deyil ");
+            throw new UnauthorizedActionException("u esya sizin deyil ");
         }
         itemRepository.delete(item);
         log.info("Esya silindi: id={}, ownerEmail={}", id, ownerEmail);
@@ -167,13 +168,11 @@ public class ItemService {
 
     }
 
-    public List<ItemResponse> searchItems(Long cityId,
+    public Page<ItemResponse> searchItems(Long cityId,
                                           ItemType itemType,
-                                          ItemStatus itemStatus) {
-        return itemRepository.searchItems(cityId, itemType, itemStatus)
-                .stream()
-                .map(this::toResponse)
-                .collect(Collectors.toList());
-
+                                          ItemStatus itemStatus,
+                                          Pageable pageable) {
+        return itemRepository.searchItems(cityId, itemType, itemStatus, pageable)
+                .map(this::toResponse);
     }
 }
