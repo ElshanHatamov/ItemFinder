@@ -2,6 +2,8 @@ package com.example.itemfinderapplication.service;
 
 import com.example.itemfinderapplication.enums.ItemStatus;
 import com.example.itemfinderapplication.enums.ItemType;
+import com.example.itemfinderapplication.exception.NotFoundException;
+import com.example.itemfinderapplication.exception.UnauthorizedActionException;
 import com.example.itemfinderapplication.model.dto.request.ItemRequest;
 import com.example.itemfinderapplication.model.dto.request.ItemUpdateRequest;
 import com.example.itemfinderapplication.model.dto.response.ItemResponse;
@@ -41,11 +43,11 @@ public class ItemService {
                                   String ownerEmail) {
 
         City city = cityRepository.findById(request.getCityId())
-                .orElseThrow(() -> new RuntimeException(
+                .orElseThrow(() -> new NotFoundException(
                         "Şəhər tapılmadı: " + request.getCityId()));
 
         User owner = userRepository.findByEmail(ownerEmail)
-                .orElseThrow(() -> new RuntimeException(
+                .orElseThrow(() -> new NotFoundException(
                         "Istifadeci tapilmadi"));
 
         String imageUrl = fileStorageService.saveFile(image);
@@ -99,10 +101,10 @@ public class ItemService {
     public ItemResponse updateItem(Long id, ItemUpdateRequest request, String ownerEmail) {
 
         Item item = itemRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Esya Tapilmadi " + id));
+                .orElseThrow(() -> new NotFoundException("Esya Tapilmadi " + id));
 
         if (!item.getUser().getEmail().equals(ownerEmail)) {
-            throw new RuntimeException("Bu esya sizin deyil: ");
+            throw new UnauthorizedActionException("Bu esya sizin deyil: ");
         }
 
         if (request.getTittle() != null && !request.getTittle().isBlank()) {
@@ -116,7 +118,7 @@ public class ItemService {
         }
         if (request.getCityId() != null) {
             City city = cityRepository.findById(request.getCityId())
-                    .orElseThrow(() -> new RuntimeException("Seher tapilmadi " + request.getCityId()));
+                    .orElseThrow(() -> new NotFoundException("Seher tapilmadi " + request.getCityId()));
             item.setCity(city);
         }
         Item saved = itemRepository.save(item);
@@ -127,10 +129,10 @@ public class ItemService {
     @Transactional
     public void deleteItem(Long id, String ownerEmail) {
         Item item = itemRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Esya tapilmadi. ID" + id));
+                .orElseThrow(() -> new NotFoundException("Esya tapilmadi. ID" + id));
 
         if (!item.getUser().getEmail().equals(ownerEmail)) {
-            throw new RuntimeException("User Tapilmadi ");
+            throw new UnauthorizedActionException("Bu esya sizin deyil ");
         }
         itemRepository.delete(item);
         log.info("Esya silindi: id={}, ownerEmail={}", id, ownerEmail);
@@ -138,7 +140,7 @@ public class ItemService {
 
     public ItemResponse getItemById(Long id) {
         Item item = itemRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Mehsul Tapilmadi "));
+                .orElseThrow(() -> new NotFoundException("Mehsul Tapilmadi "));
         return toResponse(item);
     }
 
@@ -155,9 +157,9 @@ public class ItemService {
     public ItemResponse markAsFound(Long id, String ownerEmail) {
 
         Item item = itemRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Mehsul Tapilmadi"));
+                .orElseThrow(() -> new NotFoundException("Mehsul Tapilmadi"));
         if (!item.getUser().getEmail().equals(ownerEmail)) {
-            throw new RuntimeException("Bu esya sizin deyil ");
+            throw new UnauthorizedActionException("Bu esya sizin deyil ");
         }
         item.setStatus(ItemStatus.FOUND);
         Item saved = itemRepository.save(item);
