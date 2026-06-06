@@ -55,8 +55,8 @@ public class SecurityConfig {
                         // Bura bütün elanları listələyən (/api/items) endpointin aiddir
                         .requestMatchers(HttpMethod.GET, "/api/items").permitAll()
 
-                        // Eger id ye gore axtarirsa login olmalidi
-                        .requestMatchers(HttpMethod.GET, "/api/items/{id}").authenticated()
+                        // Esya detallarini hamı gore biler - token lazim deyil
+                        .requestMatchers(HttpMethod.GET, "/api/items/{id}").permitAll()
 
                         // Melumat yerlesdirmek (POST) ucun yoken mutleq lazimdir
                         .requestMatchers(HttpMethod.POST, "/api/items", "/api/items/**").authenticated()
