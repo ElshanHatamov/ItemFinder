@@ -11,11 +11,10 @@ import lombok.*;
 
 public class LoginRequest {
 
-    @Email
-    @NotBlank
+    @NotBlank(message = "Email boş ola bilməz")
+    @Email(message = "Email düzgün formatda olmalıdır. Məsələn: test@gmail.com")
     String email;
 
-    @NotBlank
+    @NotBlank(message = "Şifrə boş ola bilməz")
     String password;
-
 }

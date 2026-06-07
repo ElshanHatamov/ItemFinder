@@ -35,6 +35,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // Qeydiyyat ve Giris endpointlre her kes gire bilsin
 
+
                         .requestMatchers("/uploads/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/users").permitAll()
                         .requestMatchers("/auth/**").permitAll()

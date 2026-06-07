@@ -28,12 +28,11 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     List<Item> findByUserEmail(String ownerEmail);
 
     @Query("""
-        SELECT i FROM Item i
-        WHERE (:cityId IS NULL OR i.city.id = :cityId)
-          AND (:itemType IS NULL OR i.itemType = :itemType)
-          AND (:status IS NULL OR i.status = :status)
-        ORDER BY i.createAt DESC
-        """)
+            SELECT i FROM Item i
+            WHERE (:cityId IS NULL OR i.city.id = :cityId)
+              AND (:itemType IS NULL OR i.itemType = :itemType)
+              AND (:status IS NULL OR i.status = :status)
+            """)
     Page<Item> searchItems(
             @Param("cityId") Long cityId,
             @Param("itemType") ItemType itemType,

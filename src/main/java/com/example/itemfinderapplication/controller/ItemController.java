@@ -75,6 +75,22 @@ public class ItemController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<Page<ItemResponse>> searchItems(
+            @RequestParam(required = false) Long cityId,
+            @RequestParam(required = false) ItemType itemType,
+            @RequestParam(required = false) ItemStatus itemStatus,
+            @PageableDefault(
+                    size = 10,
+                    sort = "createAt",
+                    direction = Sort.Direction.DESC
+            ) Pageable pageable
+    ) {
+        return ResponseEntity.ok(
+                itemService.searchItems(cityId, itemType, itemStatus, pageable)
+        );
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ItemResponse> getItemById(@PathVariable Long id) {
         return ResponseEntity.ok(
@@ -111,20 +127,6 @@ public class ItemController {
         );
     }
 
-    @GetMapping("/search")
-    public ResponseEntity<Page<ItemResponse>> searchItems(
-            @RequestParam(required = false) Long cityId,
-            @RequestParam(required = false) ItemType itemType,
-            @RequestParam(required = false) ItemStatus itemStatus,
-            @PageableDefault(
-                    size = 10,
-                    sort = "createAt",
-                    direction = Sort.Direction.DESC
-            ) Pageable pageable
-    ) {
-        return ResponseEntity.ok(
-                itemService.searchItems(cityId, itemType, itemStatus, pageable)
-        );
-    }
+
 }
 
