@@ -20,6 +20,7 @@ public class ItemResponse {
     ItemType itemType;
     String cityName;
     String ownerEmail;
+    String ownerPhone;
     String imageUrl;
     LocalDateTime createAt;
 }

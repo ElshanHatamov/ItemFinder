@@ -93,6 +93,7 @@ public class ItemService {
                 .itemType(item.getItemType())
                 .cityName(item.getCity().getName())
                 .ownerEmail(item.getUser().getEmail())
+                .ownerPhone(item.getUser().getPhone())
                 .imageUrl(item.getImageUrl())
                 .createAt(item.getCreateAt())
                 .build();
