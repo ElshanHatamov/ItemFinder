@@ -30,10 +30,9 @@ public class RegisterRequest {
     )
     String phone;
 
-    @NotBlank(message = "Şifrə boş ola bilməz")
     @Pattern(
-            regexp = "^(?=.*[A-Za-z])(?=.*\\d).{8,}$",
-            message = "Şifrə minimum 8 simvol olmalı, ən azı 1 hərf və 1 rəqəm içerməlidir"
+            regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*?&._-]).{8,}$",
+            message = "Şifrə minimum 8 simvol olmalı, ən azı 1 hərf, 1 rəqəm və 1 xüsusi simvol içerməlidir. Məsələn: Test123!"
     )
     String password;
 }

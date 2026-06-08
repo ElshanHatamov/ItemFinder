@@ -123,7 +123,7 @@ public class ItemController {
             ) Pageable pageable
     ) {
         return ResponseEntity.ok(
-                itemService.getAllLostItems(pageable)
+                itemService.getAllItems(pageable)
         );
     }
 

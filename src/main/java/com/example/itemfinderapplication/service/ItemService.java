@@ -72,10 +72,9 @@ public class ItemService {
         return toResponse(saved);
     }
 
-    public Page<ItemResponse> getAllLostItems(Pageable pageable) {
-        return itemRepository.findByStatus(ItemStatus.LOST, pageable)
+    public Page<ItemResponse> getAllItems(Pageable pageable) {
+        return itemRepository.findAll(pageable)
                 .map(this::toResponse);
-
     }
 
     public List<ItemResponse> getLostItemsByCity(Long cityId) {
