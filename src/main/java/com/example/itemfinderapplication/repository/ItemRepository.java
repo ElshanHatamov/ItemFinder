@@ -2,6 +2,7 @@ package com.example.itemfinderapplication.repository;
 
 import com.example.itemfinderapplication.enums.ItemStatus;
 import com.example.itemfinderapplication.enums.ItemType;
+import com.example.itemfinderapplication.model.entity.City;
 import com.example.itemfinderapplication.model.entity.Item;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -38,5 +39,11 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
             @Param("itemType") ItemType itemType,
             @Param("status") ItemStatus status,
             Pageable pageable
+    );
+
+    List<Item> findByCityIdAndItemTypeAndStatus(
+            Long cityId,
+            ItemType itemType,
+            ItemStatus status
     );
 }

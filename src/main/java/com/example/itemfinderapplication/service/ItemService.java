@@ -38,6 +38,7 @@ public class ItemService {
     CityRepository cityRepository;
     UserRepository userRepository;
     FileStorageService fileStorageService;
+    MatchingService matchingService;
 
     @Transactional
     public ItemResponse creatItem(ItemRequest request,
@@ -67,6 +68,7 @@ public class ItemService {
         log.info("Yeni əşya yerləşdirildi: id={}, tittle={}, status={}",
                 saved.getId(), saved.getTittle(), saved.getStatus());
 
+        matchingService.checkMatchingItems(saved);
         return toResponse(saved);
     }
 
@@ -175,4 +177,5 @@ public class ItemService {
         return itemRepository.searchItems(cityId, itemType, itemStatus, pageable)
                 .map(this::toResponse);
     }
+
 }
