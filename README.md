@@ -1,62 +1,177 @@
-# ItemFinder
+# 🚀 Tapıntı
 
-ItemFinder itirilmiş və tapılmış əşyaların idarə olunması üçün hazırlanmış backend tətbiqidir. Layihə Spring Boot əsasında qurulmuş, JWT autentifikasiyası və PostgreSQL verilənlər bazası ilə inteqrasiya edilmişdir.
+### Azərbaycanda İtmiş və Tapılmış Əşyalar Platforması
 
-## İstifadə olunan texnologiyalar
+Tapıntı istifadəçilərin itirdikləri və ya tapdıqları əşyalar haqqında elan yaratmasına, elanları idarə etməsinə və əşya sahibləri ilə əlaqə qurmasına imkan verən tam funksional full-stack veb platformadır.
+
+Layihənin əsas məqsədi itmiş əşyaların sahiblərinə daha sürətli çatdırılmasını təmin etmək və istifadəçilər arasında təhlükəsiz əlaqə yaratmaqdır.
+
+---
+
+## ✨ Əsas Xüsusiyyətlər
+
+### 🔐 Authentication & Security
+
+* JWT Authentication
+* Access Token & Refresh Token mexanizmi
+* Spring Security ilə endpoint qorunması
+* Role-based Authorization
+* Şifrələrin BCrypt ilə hash-lənməsi
+* İstifadəçi sessiyalarının idarə olunması
+
+### 📦 Əşya Elanları
+
+* İtmiş əşya elanı yaratmaq
+* Tapılmış əşya elanı yaratmaq
+* Elanları yeniləmək
+* Elanları silmək
+* Öz elanlarını görüntüləmək
+* Şəhərə görə filtrasiya
+* Əşya statusunun idarə olunması
+
+### 👤 İstifadəçi İdarəetməsi
+
+* Qeydiyyat
+* Giriş
+* Profil məlumatlarının görüntülənməsi
+* İstifadəçi elanlarının idarə olunması
+
+### 🖼️ Şəkil Dəstəyi
+
+* Multipart File Upload
+* Əşya şəkillərinin saxlanılması və göstərilməsi
+
+---
+
+## 🏗️ Layihə Arxitekturası
+
+Backend Clean Architecture prinsiplərinə uyğun şəkildə hazırlanmışdır.
+
+```text
+Controller
+    ↓
+Service
+    ↓
+Repository
+    ↓
+PostgreSQL
+```
+
+Layihədə DTO Pattern, JWT Authentication və Layered Architecture istifadə olunmuşdur.
+
+---
+
+## ⚙️ Texnologiyalar
+
+### Backend
 
 * Java 21
 * Spring Boot
 * Spring Security
-* JWT Authentication
+* Spring Data JPA
+* Hibernate
 * PostgreSQL
-* Hibernate / JPA
-* Gradle
+* JWT Authentication
 * Lombok
-* Git & GitHub
+* Validation
+* Gradle
 
-## Əsas imkanlar
+### Frontend
 
-* İstifadəçi qeydiyyatı və giriş sistemi
-* JWT əsaslı autentifikasiya və avtorizasiya
-* İtirilmiş əşyaların əlavə edilməsi və idarə olunması
-* Tapılmış əşyaların əlavə edilməsi və idarə olunması
-* İstifadəçi profilinin idarə olunması
+* React
+* Vite
+* Axios
+* React Router
+* Tailwind CSS
+* Lucide Icons
 
-## API Endpoint-ləri
+### DevOps
+
+* Git
+* GitHub
+* Docker (hazırlanır)
+
+---
+
+## 🔗 API Endpoint-ləri
 
 ### Authentication
-* POST /auth/register
-* POST /auth/login
-* POST /auth/refresh
-* POST /auth/logout
+
+```http
+POST /auth/register
+POST /auth/login
+POST /auth/refresh
+POST /auth/logout
+```
 
 ### Items
-* GET /api/items
-* GET /api/items/{id}
-* GET /api/items/my-items
-* GET /api/items/city/{cityId}
-* POST /api/items
-* PUT /api/items/{id}
-* DELETE /api/items/{id}
+
+```http
+GET    /api/items
+GET    /api/items/{id}
+GET    /api/items/my-items
+GET    /api/items/city/{cityId}
+
+POST   /api/items
+PUT    /api/items/{id}
+DELETE /api/items/{id}
+```
 
 ### Cities
-* GET /api/cities
-* POST /api/cities
 
-## Gələcək inkişaf planları
+```http
+GET  /api/cities
+POST /api/cities
+```
 
-* Şəkil yükləmə funksionallığı
-* E-mail bildirişləri
-* Ətraflı axtarış və filtrləmə
-* Admin paneli
-* Swagger/OpenAPI sənədləşməsi
+---
 
-## Layihənin vəziyyəti
+## 🛡️ Təhlükəsizlik
 
-🚧 İnkişaf mərhələsindədir
+Layihədə aşağıdakı təhlükəsizlik mexanizmləri tətbiq edilmişdir:
 
-## Müəllif
+* JWT Authentication
+* Refresh Token mexanizmi
+* Protected Endpoints
+* Password Encryption
+* Request Validation
+* Authentication Filter Chain
 
-Elshan Hatamov
+---
 
-GitHub: https://github.com/ElshanHatamov
+## 📈 Gələcək İnkişaf Planları
+
+* Email Verification
+* OTP təsdiqləmə sistemi
+* Email bildirişləri
+* Ətraflı axtarış sistemi
+* Admin Panel
+* Swagger / OpenAPI Documentation
+* Docker Deployment
+* Cloud Storage Integration
+* Real-Time Notification System
+
+---
+
+## 👨‍💻 Layihə Haqqında
+
+Bu layihənin backend hissəsi tam olaraq müəllif tərəfindən Java və Spring Boot texnologiyalarından istifadə edilərək hazırlanmışdır.
+
+Frontend hissəsinin dizayn və istifadəçi təcrübəsinin təkmilləşdirilməsi zamanı süni intellekt dəstəyindən istifadə edilmişdir.
+
+Layihənin əsas məqsədi Java Backend Development bacarıqlarını real dünya ssenarisində nümayiş etdirməkdir.
+
+---
+
+## 👤 Müəllif
+
+**Elshan Hatamov**
+
+Java Backend Developer
+
+GitHub:
+https://github.com/ElshanHatamov
+
+---
+
+⭐ Layihəni bəyəndinizsə repository-yə star verməyi unutmayın.
