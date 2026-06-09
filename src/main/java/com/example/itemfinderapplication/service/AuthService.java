@@ -101,6 +101,7 @@ public class AuthService {
 
             try {
                 emailService.sendVerificationCode(existingUser.getEmail(), code);
+
             } catch (Exception e) {
                 log.error("Verification email göndərilmədi: {}", e.getMessage());
             }
@@ -134,6 +135,7 @@ public class AuthService {
             emailService.sendVerificationCode(user.getEmail(), code);
         } catch (Exception e) {
             log.error("Verification email göndərilmədi: {}", e.getMessage());
+            throw new RuntimeException("Təsdiq kodu emailə göndərilmədi. Zəhmət olmasa bir az sonra yenidən yoxlayın.");
         }
 
         return "Qeydiyyat uğurludur. Emailə göndərilən təsdiq kodunu daxil edin.";
