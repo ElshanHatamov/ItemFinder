@@ -120,7 +120,7 @@ const EditItem = () => {
 
                 <div className="mb-10 text-center">
                     <h1 className="text-4xl font-bold text-slate-900 dark:text-white mb-4">
-                        Tapıntı elanını redaktə et
+                        Qaytar.az elanını redaktə et
                     </h1>
 
                     <p className="text-slate-500 dark:text-slate-400">
@@ -130,8 +130,7 @@ const EditItem = () => {
 
                 <div className="mb-8 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-2xl p-4 text-sm text-blue-700 dark:text-blue-300">
                     Dəyişiklikləri yadda saxladıqdan sonra elan məlumatları yenilənəcək.
-                    Əgər status və ya kateqoriya dəyişərsə, sistem uyğun elanlarla
-                    müqayisəni yenidən apara bilər.
+                    Qaytar.az platforması yenilənmiş məlumatları dərhal istifadəçilərə göstərəcək.
                 </div>
 
                 <div className="bg-white dark:bg-slate-900 rounded-[2.5rem] shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden">
