@@ -43,6 +43,7 @@ public class SecurityConfig {
                         .requestMatchers("/uploads/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/users").permitAll()
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/auth/verify-email").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/cities/**").permitAll()
 
                         .requestMatchers(

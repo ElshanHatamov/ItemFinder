@@ -3,7 +3,7 @@ package com.example.itemfinderapplication.controller;
 import com.example.itemfinderapplication.model.dto.request.LoginRequest;
 import com.example.itemfinderapplication.model.dto.request.RefreshRequest;
 import com.example.itemfinderapplication.model.dto.request.RegisterRequest;
-import com.example.itemfinderapplication.model.dto.response.AuthResponse;
+import com.example.itemfinderapplication.model.dto.request.VerifyEmailRequest;
 import com.example.itemfinderapplication.model.dto.response.LoginResponse;
 import com.example.itemfinderapplication.service.AuthService;
 import jakarta.validation.Valid;
@@ -25,7 +25,7 @@ public class AuthController {
     AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login( @Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
         LoginResponse response = authService.login(loginRequest.getEmail(), loginRequest.getPassword());
         return ResponseEntity.ok(response);
     }
@@ -43,8 +43,12 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest request) {
-        AuthResponse response = authService.register(request);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<String> register(@Valid @RequestBody RegisterRequest request) {
+        return ResponseEntity.ok(authService.register(request));
+    }
+
+    @PostMapping("/verify-email")
+    public ResponseEntity<String> verifyEmail(@RequestBody VerifyEmailRequest emailRequest) {
+        return ResponseEntity.ok(authService.verifyEmail(emailRequest));
     }
 }

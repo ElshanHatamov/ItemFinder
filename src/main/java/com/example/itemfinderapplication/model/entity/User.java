@@ -39,11 +39,15 @@ public class User {
     @CreationTimestamp
     LocalDateTime createAt;
 
-    boolean active = true;
+    boolean active = false;
+
+    String verificationCode;
+
+    LocalDateTime verificationCodeExpiresAt;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
-    private List<Item> itemList = new ArrayList<>();
+    List<Item> itemList = new ArrayList<>();
 
     @OneToMany(mappedBy = "user",
             cascade = CascadeType.ALL,
