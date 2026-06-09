@@ -1,6 +1,6 @@
-# 🚀 Tapıntı
+# 🚀 Qaytar.az
 
-### Azərbaycanda İtmiş və Tapılmış Əşyalar Platforması
+Azərbaycanda itmiş və tapılmış əşyaların paylaşılması və sahiblərinə qaytarılması platforması.
 
 Tapıntı istifadəçilərin itirdikləri və ya tapdıqları əşyalar haqqında elan yaratmasına, elanları idarə etməsinə və əşya sahibləri ilə əlaqə qurmasına imkan verən tam funksional full-stack veb platformadır.
 
