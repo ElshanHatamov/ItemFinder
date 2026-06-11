@@ -18,6 +18,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import com.example.itemfinderapplication.model.dto.request.ForgotPasswordRequest;
+import com.example.itemfinderapplication.model.dto.request.ResetPasswordRequest;
 
 import java.time.LocalDateTime;
 
@@ -169,5 +171,56 @@ public class AuthService {
         userRepository.save(user);
 
         return "Email uğurla təsdiqləndi";
+    }
+    public String forgotPassword(ForgotPasswordRequest request) {
+
+        User user = userRepository.findByEmail(request.email())
+                .orElseThrow(() -> new RuntimeException("Bu email ilə istifadəçi tapılmadı"));
+
+        if (!user.isActive()) {
+            throw new RuntimeException("Bu hesab hələ aktivləşdirilməyib. Əvvəlcə email təsdiqini tamamlayın.");
+        }
+
+        String code = generateVerificationCode();
+
+        user.setVerificationCode(code);
+        user.setVerificationCodeExpiresAt(LocalDateTime.now().plusMinutes(10));
+
+        userRepository.save(user);
+
+        try {
+            emailService.sendPasswordResetCode(user.getEmail(), code);
+        } catch (Exception e) {
+            log.error("Password reset email göndərilmədi: {}", e.getMessage());
+            throw new RuntimeException("Şifrə bərpa kodu emailə göndərilmədi. Zəhmət olmasa bir az sonra yenidən yoxlayın.");
+        }
+
+        return "Şifrə bərpa kodu email ünvanınıza göndərildi.";
+    }
+
+    public String resetPassword(ResetPasswordRequest request) {
+
+        User user = userRepository.findByEmail(request.email())
+                .orElseThrow(() -> new RuntimeException("Bu email ilə istifadəçi tapılmadı"));
+
+        if (user.getVerificationCode() == null ||
+                !user.getVerificationCode().equals(request.code())) {
+            throw new RuntimeException("Kod yanlışdır");
+        }
+
+        if (user.getVerificationCodeExpiresAt() == null ||
+                user.getVerificationCodeExpiresAt().isBefore(LocalDateTime.now())) {
+            throw new RuntimeException("Kodun vaxtı bitib");
+        }
+
+        user.setPassword(passwordEncoder.encode(request.newPassword()));
+        user.setVerificationCode(null);
+        user.setVerificationCodeExpiresAt(null);
+
+        refreshTokenService.deleteAllByUser(user);
+
+        userRepository.save(user);
+
+        return "Şifrə uğurla yeniləndi. Yeni şifrə ilə daxil ola bilərsiniz.";
     }
 }

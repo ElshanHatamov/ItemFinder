@@ -7,6 +7,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -37,6 +38,10 @@ public class RefreshTokenService {
             throw new RuntimeException("Refresh token muddeti bitti");
         }
         return refreshToken;
+    }
+    @Transactional
+    public void deleteAllByUser(User user) {
+        refreshTokenRepository.deleteByUser(user);
     }
 
     public void delete(String token) {

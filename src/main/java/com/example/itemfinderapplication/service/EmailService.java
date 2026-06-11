@@ -18,7 +18,7 @@ public class EmailService {
     public void sendLoginNotification(String toEmail) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
 
-        mailMessage.setFrom("elsen.hetemov123@gmail.com");
+        mailMessage.setFrom("supportqaytar@gmail.com");
         mailMessage.setTo(toEmail);
         mailMessage.setSubject("Qaytar.az - Hesabınıza yeni giriş qeydə alındı");
         mailMessage.setText("""
@@ -38,7 +38,7 @@ public class EmailService {
     public void sendMatchingItemNotification(String toEmail, Item item) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
 
-        mailMessage.setFrom("elsen.hetemov123@gmail.com");
+        mailMessage.setFrom("supportqaytar@gmail.com");
         mailMessage.setTo(toEmail);
         mailMessage.setSubject("Qaytar.az - Oxşar elan tapıldı");
 
@@ -69,7 +69,7 @@ public class EmailService {
     public void sendVerificationCode(String toEmail, String code) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
 
-        mailMessage.setFrom("elsen.hetemov123@gmail.com");
+        mailMessage.setFrom("supportqaytar@gmail.com");
         mailMessage.setTo(toEmail);
         mailMessage.setSubject("Qaytar.az - Email təsdiq kodu");
 
@@ -87,6 +87,33 @@ public class EmailService {
                 Hörmətlə,
                 Qaytar.az komandası
                 """.formatted(code));
+
+        mailSender.send(mailMessage);
+    }
+    public void sendPasswordResetCode(String toEmail, String code) {
+
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+
+        mailMessage.setFrom("supportqaytar@gmail.com");
+        mailMessage.setTo(toEmail);
+        mailMessage.setSubject("Qaytar.az - Şifrə bərpa kodu");
+
+        mailMessage.setText("""
+            Salam,
+
+            Qaytar.az hesabınız üçün şifrə bərpa sorğusu göndərilib.
+
+            Şifrəni yeniləmək üçün təsdiq kodunuz:
+
+            %s
+
+            Bu kod 10 dəqiqə ərzində etibarlıdır.
+
+            Əgər bu sorğunu siz etməmisinizsə, bu mesajı nəzərə almayın.
+
+            Hörmətlə,
+            Qaytar.az komandası
+            """.formatted(code));
 
         mailSender.send(mailMessage);
     }
