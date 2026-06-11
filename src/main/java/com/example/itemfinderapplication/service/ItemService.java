@@ -56,7 +56,7 @@ public class ItemService {
         String imageUrl = fileStorageService.saveFile(image);
 
         Item item = new Item();
-        item.setTittle(request.getTittle());
+        item.setTitle(request.getTitle());
         item.setStatus(request.getItemStatus());
         item.setItemType(request.getItemType());
         item.setDescription(request.getDescription());
@@ -66,8 +66,8 @@ public class ItemService {
         // createAt → @CreationTimestamp avtomatik yazilir
         Item saved = itemRepository.save(item);
 
-        log.info("Yeni əşya yerləşdirildi: id={}, tittle={}, status={}",
-                saved.getId(), saved.getTittle(), saved.getStatus());
+        log.info("Yeni əşya yerləşdirildi: id={}, title={}, status={}",
+                saved.getId(), saved.getTitle(), saved.getStatus());
 
         matchingService.checkMatchingItems(saved);
         return toResponse(saved);
@@ -89,7 +89,7 @@ public class ItemService {
     private ItemResponse toResponse(Item item) {
         return ItemResponse.builder()
                 .id(item.getId())
-                .tittle(item.getTittle())
+                .title(item.getTitle())
                 .itemStatus(item.getStatus())
                 .itemType(item.getItemType())
                 .description(item.getDescription())
@@ -112,8 +112,8 @@ public class ItemService {
             throw new UnauthorizedActionException("Bu esya sizin deyil: ");
         }
 
-        if (request.getTittle() != null && !request.getTittle().isBlank()) {
-            item.setTittle(request.getTittle());
+        if (request.getTitle() != null && !request.getTitle().isBlank()) {
+            item.setTitle(request.getTitle());
         }
         if (request.getItemStatus() != null) {
             item.setStatus(request.getItemStatus());

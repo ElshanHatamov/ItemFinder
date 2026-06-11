@@ -21,7 +21,7 @@ public class Item {
     Long id;
     @NotBlank
     @Column(nullable = false)
-    String tittle;
+    String title;
 
     @Enumerated(EnumType.STRING)
     @NotNull(message = "Status seçilməlidir")
@@ -29,12 +29,12 @@ public class Item {
     ItemStatus status;
 
     @Enumerated(EnumType.STRING)
-    @NotNull(message = "Əşya nüvü seçilməlidir")
+    @NotNull(message = "Əşya növü seçilməlidir")
     @Column(nullable = false)
     ItemType itemType;
 
-    @NotBlank(message = "Təsvir  boş ola bilməz")
-    @Column(length = 1000,nullable = false)
+    @NotBlank(message = "Təsvir boş ola bilməz")
+    @Column(length = 1000, nullable = false)
     String description;
 
     @Column(name = "image_url", length = 500)

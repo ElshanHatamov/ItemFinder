@@ -9,7 +9,8 @@ const EditItem = () => {
 
     const [cities, setCities] = useState([]);
     const [form, setForm] = useState({
-        tittle: '',
+        title: '',
+        description: '',
         itemStatus: 'LOST',
         itemType: 'OTHER',
         cityId: '',
@@ -41,7 +42,8 @@ const EditItem = () => {
             const selectedCity = cityList.find((city) => city.name === item.cityName);
 
             setForm({
-                tittle: item.tittle || '',
+                title: item.title || '',
+                description: item.description || '',
                 itemStatus: item.itemStatus || 'LOST',
                 itemType: item.itemType || 'OTHER',
                 cityId: selectedCity ? String(selectedCity.id) : '',
@@ -66,8 +68,18 @@ const EditItem = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!form.tittle.trim()) {
+        if (!form.title.trim()) {
             setError('Başlıq boş ola bilməz.');
+            return;
+        }
+
+        if (!form.description.trim()) {
+            setError('Təsvir boş ola bilməz.');
+            return;
+        }
+
+        if (form.description.trim().length < 10) {
+            setError('Təsvir minimum 10 simvol olmalıdır.');
             return;
         }
 
@@ -81,7 +93,8 @@ const EditItem = () => {
 
         try {
             await api.put(`/api/items/${id}`, {
-                tittle: form.tittle,
+                title: form.title,
+                description: form.description,
                 itemStatus: form.itemStatus,
                 itemType: form.itemType,
                 cityId: Number(form.cityId),
@@ -148,11 +161,27 @@ const EditItem = () => {
                             </label>
 
                             <input
-                                name="tittle"
-                                value={form.tittle}
+                                name="title"
+                                value={form.title}
                                 onChange={handleChange}
                                 placeholder="Məsələn: Qara pulqabı"
                                 className="w-full px-6 py-4 bg-slate-50 dark:bg-slate-800 border-transparent rounded-2xl focus:ring-2 focus:ring-primary-500 outline-none text-slate-900 dark:text-white"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-3 flex items-center">
+                                <Info size={16} className="mr-2 text-primary-500" />
+                                Əşya haqqında məlumat
+                            </label>
+
+                            <textarea
+                                name="description"
+                                value={form.description}
+                                onChange={handleChange}
+                                rows={5}
+                                placeholder="Əşyanın rəngi, markası, harada itdiyi və digər vacib məlumatları yazın..."
+                                className="w-full px-6 py-4 bg-slate-50 dark:bg-slate-800 border-transparent rounded-2xl focus:ring-2 focus:ring-primary-500 outline-none text-slate-900 dark:text-white resize-none"
                             />
                         </div>
 

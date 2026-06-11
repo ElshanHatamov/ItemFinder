@@ -57,7 +57,7 @@ public class EmailService {
                 Hörmətlə,
                 Qaytar.az komandası
                 """.formatted(
-                item.getTittle(),
+                item.getTitle(),
                 item.getItemType(),
                 item.getStatus(),
                 item.getCity().getName()

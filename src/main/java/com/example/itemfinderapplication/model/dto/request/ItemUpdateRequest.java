@@ -10,7 +10,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ItemUpdateRequest {
 
-    String tittle;
+    String title;
     ItemStatus itemStatus;
     ItemType itemType;
     String description;

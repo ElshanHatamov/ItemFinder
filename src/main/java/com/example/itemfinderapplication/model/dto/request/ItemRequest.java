@@ -14,7 +14,7 @@ import lombok.experimental.FieldDefaults;
 public class ItemRequest {
 
     @NotBlank(message = "Başlıq boş ola bilməz")
-    String tittle;
+    String title;
 
     @NotNull(message = "Status seçilməlidir")
     ItemStatus itemStatus;

@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class ItemResponse {
 
     Long id;
-    String tittle;
+    String title;
     ItemStatus itemStatus;
     ItemType itemType;
     String description;
