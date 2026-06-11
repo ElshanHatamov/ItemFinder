@@ -24,16 +24,20 @@ public class Item {
     String tittle;
 
     @Enumerated(EnumType.STRING)
-    @NotNull(message = "Status secilmelidir")
+    @NotNull(message = "Status seçilməlidir")
     @Column(nullable = false)
     ItemStatus status;
 
     @Enumerated(EnumType.STRING)
-    @NotNull(message = "Esya novu secilmelidir")
+    @NotNull(message = "Əşya nüvü seçilməlidir")
     @Column(nullable = false)
     ItemType itemType;
 
-    @Column(name = "image_url",length = 500)
+    @NotBlank(message = "Təsvir  boş ola bilməz")
+    @Column(length = 1000,nullable = false)
+    String description;
+
+    @Column(name = "image_url", length = 500)
     String imageUrl; // Bazada sadece seklin adini yazacaq bu field (meselen bu terz:: "qara-pul-qabi-123.jpg")
 
     @Column(nullable = false)
@@ -41,11 +45,11 @@ public class Item {
     LocalDateTime createAt;
 
     @ManyToOne
-    @JoinColumn(name = "user_id",nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     User user;
 
     @ManyToOne
-    @JoinColumn(name = "city_id",nullable = false)
+    @JoinColumn(name = "city_id", nullable = false)
     City city;
 
 }

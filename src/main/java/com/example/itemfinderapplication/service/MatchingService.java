@@ -39,6 +39,7 @@ public class MatchingService {
             if (!item.getUser().getEmail().equals(savedItem.getUser().getEmail())) {
                 emailService.sendMatchingItemNotification(
                         item.getUser().getEmail(),
+                        // yeni elani qoyan sexs
                         savedItem
                 );
             }

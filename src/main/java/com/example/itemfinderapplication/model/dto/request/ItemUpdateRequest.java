@@ -13,5 +13,6 @@ public class ItemUpdateRequest {
     String tittle;
     ItemStatus itemStatus;
     ItemType itemType;
+    String description;
     Long cityId;
 }

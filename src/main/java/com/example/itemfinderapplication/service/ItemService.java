@@ -59,6 +59,7 @@ public class ItemService {
         item.setTittle(request.getTittle());
         item.setStatus(request.getItemStatus());
         item.setItemType(request.getItemType());
+        item.setDescription(request.getDescription());
         item.setCity(city);
         item.setUser(owner);
         item.setImageUrl(imageUrl);
@@ -91,6 +92,7 @@ public class ItemService {
                 .tittle(item.getTittle())
                 .itemStatus(item.getStatus())
                 .itemType(item.getItemType())
+                .description(item.getDescription())
                 .cityName(item.getCity().getName())
                 .ownerEmail(item.getUser().getEmail())
                 .ownerPhone(item.getUser().getPhone())
@@ -118,6 +120,9 @@ public class ItemService {
         }
         if (request.getItemType() != null) {
             item.setItemType(request.getItemType());
+        }
+        if (request.getDescription() != null && !request.getDescription().isBlank()) {
+            item.setDescription(request.getDescription());
         }
         if (request.getCityId() != null) {
             City city = cityRepository.findById(request.getCityId())

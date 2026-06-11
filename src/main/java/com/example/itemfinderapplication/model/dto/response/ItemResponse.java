@@ -18,6 +18,7 @@ public class ItemResponse {
     String tittle;
     ItemStatus itemStatus;
     ItemType itemType;
+    String description;
     String cityName;
     String ownerEmail;
     String ownerPhone;
