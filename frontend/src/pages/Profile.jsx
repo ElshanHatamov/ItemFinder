@@ -18,6 +18,8 @@ import {
     AlertCircle,
     Lock,
     KeyRound,
+    Search,
+    MapPin,
 } from 'lucide-react';
 
 const Profile = () => {
@@ -25,6 +27,7 @@ const Profile = () => {
     const navigate = useNavigate();
 
     const [profile, setProfile] = useState(null);
+    const [stats, setStats] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
@@ -51,7 +54,14 @@ const Profile = () => {
                 },
             });
 
+            const statsResponse = await api.get('/auth/profile/stats', {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
             setProfile(response.data);
+            setStats(statsResponse.data);
         } catch (err) {
             console.error('Profil məlumatları yüklənərkən xəta:', err);
             setError(
@@ -229,6 +239,59 @@ const Profile = () => {
                                 <CheckCircle size={18} className="mr-2" />
                                 Aktiv
                             </div>
+                        </div>
+                    </div>
+
+                    <div className="grid md:grid-cols-3 gap-5 mb-10">
+                        <div className="p-6 rounded-3xl bg-primary-50 dark:bg-primary-900/20 border border-primary-100 dark:border-primary-800">
+                            <div className="flex items-center justify-between mb-4">
+                                <Package size={30} className="text-primary-600" />
+                                <span className="text-xs font-bold text-primary-600 bg-white dark:bg-slate-900 px-3 py-1 rounded-full">
+                                    TOTAL
+                                </span>
+                            </div>
+
+                            <p className="text-4xl font-extrabold text-primary-600">
+                                {stats?.totalItems ?? 0}
+                            </p>
+
+                            <p className="text-sm font-semibold text-slate-600 dark:text-slate-300 mt-2">
+                                Ümumi elan
+                            </p>
+                        </div>
+
+                        <div className="p-6 rounded-3xl bg-rose-50 dark:bg-rose-900/20 border border-rose-100 dark:border-rose-800">
+                            <div className="flex items-center justify-between mb-4">
+                                <Search size={30} className="text-rose-600" />
+                                <span className="text-xs font-bold text-rose-600 bg-white dark:bg-slate-900 px-3 py-1 rounded-full">
+                                    LOST
+                                </span>
+                            </div>
+
+                            <p className="text-4xl font-extrabold text-rose-600">
+                                {stats?.lostItems ?? 0}
+                            </p>
+
+                            <p className="text-sm font-semibold text-slate-600 dark:text-slate-300 mt-2">
+                                İtmiş elan
+                            </p>
+                        </div>
+
+                        <div className="p-6 rounded-3xl bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-100 dark:border-emerald-800">
+                            <div className="flex items-center justify-between mb-4">
+                                <MapPin size={30} className="text-emerald-600" />
+                                <span className="text-xs font-bold text-emerald-600 bg-white dark:bg-slate-900 px-3 py-1 rounded-full">
+                                    FOUND
+                                </span>
+                            </div>
+
+                            <p className="text-4xl font-extrabold text-emerald-600">
+                                {stats?.foundItems ?? 0}
+                            </p>
+
+                            <p className="text-sm font-semibold text-slate-600 dark:text-slate-300 mt-2">
+                                Tapılmış elan
+                            </p>
                         </div>
                     </div>
 
