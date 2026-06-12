@@ -1,25 +1,31 @@
 # 🚀 Qaytar.az
 
-Azərbaycanda itmiş və tapılmış əşyaların paylaşılması və sahiblərinə qaytarılması platforması.
+Azərbaycanda itmiş və tapılmış əşyaların paylaşılması, uyğun elanların avtomatik aşkarlanması və əşyaların sahiblərinə qaytarılmasını asanlaşdıran full-stack Lost & Found platforması.
 
-Tapıntı istifadəçilərin itirdikləri və ya tapdıqları əşyalar haqqında elan yaratmasına, elanları idarə etməsinə və əşya sahibləri ilə əlaqə qurmasına imkan verən tam funksional full-stack veb platformadır.
+Qaytar.az istifadəçilərin itirdikləri və ya tapdıqları əşyalar haqqında elan yaratmasına, elanları idarə etməsinə, oxşar elanları tapmasına və əşya sahibləri ilə daha sürətli əlaqə qurmasına imkan verir.
 
-Layihənin əsas məqsədi itmiş əşyaların sahiblərinə daha sürətli çatdırılmasını təmin etmək və istifadəçilər arasında təhlükəsiz əlaqə yaratmaqdır.
+Layihənin əsas məqsədi itmiş əşyaların sahiblərinə daha qısa müddətdə çatdırılmasını təmin etmək və istifadəçilər arasında təhlükəsiz əlaqə yaratmaqdır.
 
 ---
 
-## ✨ Əsas Xüsusiyyətlər
+# ✨ Əsas Xüsusiyyətlər
 
-### 🔐 Authentication & Security
+## 🔐 Authentication & Security
 
 * JWT Authentication
 * Access Token & Refresh Token mexanizmi
+* Refresh Token Rotation
 * Spring Security ilə endpoint qorunması
 * Role-based Authorization
-* Şifrələrin BCrypt ilə hash-lənməsi
-* İstifadəçi sessiyalarının idarə olunması
+* BCrypt ilə şifrə şifrələnməsi
+* Email Verification (OTP Code)
+* Forgot Password & Reset Password sistemi
+* Login Notification Email
+* İstifadəçi sessiyalarının təhlükəsiz idarə olunması
 
-### 📦 Əşya Elanları
+---
+
+## 📦 Əşya Elanları
 
 * İtmiş əşya elanı yaratmaq
 * Tapılmış əşya elanı yaratmaq
@@ -27,25 +33,49 @@ Layihənin əsas məqsədi itmiş əşyaların sahiblərinə daha sürətli çat
 * Elanları silmək
 * Öz elanlarını görüntüləmək
 * Şəhərə görə filtrasiya
-* Əşya statusunun idarə olunması
-
-### 👤 İstifadəçi İdarəetməsi
-
-* Qeydiyyat
-* Giriş
-* Profil məlumatlarının görüntülənməsi
-* İstifadəçi elanlarının idarə olunması
-
-### 🖼️ Şəkil Dəstəyi
-
-* Multipart File Upload
-* Əşya şəkillərinin saxlanılması və göstərilməsi
+* Statusa görə filtrasiya
+* Əşya növünə görə filtrasiya
+* Əşya təsviri (Description) dəstəyi
+* Pagination dəstəyi
+* Şəkil əlavə etmək
+* Elan detalları səhifəsi
 
 ---
 
-## 🏗️ Layihə Arxitekturası
+## 🤝 Matching Sistemi
 
-Backend Clean Architecture prinsiplərinə uyğun şəkildə hazırlanmışdır.
+* İtmiş və tapılmış əşyaların avtomatik müqayisəsi
+* Şəhər və əşya növünə əsaslanan uyğunluq yoxlanışı
+* Oxşar elan tapıldıqda email bildirişi göndərilməsi
+* İstifadəçilər arasında əlaqənin sürətləndirilməsi
+
+---
+
+## 👤 İstifadəçi İdarəetməsi
+
+* Qeydiyyat
+* Email təsdiqlənməsi
+* Giriş
+* Çıxış (Logout)
+* Profil məlumatlarının görüntülənməsi
+* Şifrə bərpası
+* İstifadəçi elanlarının idarə olunması
+
+---
+
+## 🖼️ Şəkil Dəstəyi
+
+* Multipart File Upload
+* Şəkillərin serverdə saxlanılması
+* Dinamik şəkil URL-ləri
+* Şəkillərin frontenddə göstərilməsi
+* Multipart Upload Validation
+
+---
+
+# 🏗️ Layihə Arxitekturası
+
+Backend Layered Architecture prinsiplərinə uyğun hazırlanmışdır.
 
 ```text
 Controller
@@ -57,13 +87,32 @@ Repository
 PostgreSQL
 ```
 
-Layihədə DTO Pattern, JWT Authentication və Layered Architecture istifadə olunmuşdur.
+Authentication axını:
+
+```text
+Client
+    ↓
+JWT Filter
+    ↓
+Spring Security
+    ↓
+Protected Endpoints
+```
+
+Layihədə aşağıdakı yanaşmalardan istifadə olunmuşdur:
+
+* DTO Pattern
+* Layered Architecture
+* JWT Authentication
+* Refresh Token Strategy
+* Dependency Injection
+* Repository Pattern
 
 ---
 
-## ⚙️ Texnologiyalar
+# ⚙️ Texnologiyalar
 
-### Backend
+## Backend
 
 * Java 21
 * Spring Boot
@@ -72,52 +121,79 @@ Layihədə DTO Pattern, JWT Authentication və Layered Architecture istifadə ol
 * Hibernate
 * PostgreSQL
 * JWT Authentication
+* Refresh Token Authentication
+* Spring Mail
 * Lombok
-* Validation
+* Jakarta Validation
 * Gradle
 
-### Frontend
+---
+
+## Frontend
 
 * React
 * Vite
 * Axios
 * React Router
 * Tailwind CSS
-* Lucide Icons
-
-### DevOps
-
-* Git
-* GitHub
-* Docker (hazırlanır)
+* Lucide React Icons
 
 ---
 
-## 🔗 API Endpoint-ləri
+## DevOps
 
-### Authentication
+* Git
+* GitHub
+* Docker (Development mərhələsində)
+
+---
+
+# 🔗 API Endpoints
+
+## Authentication
 
 ```http
 POST /auth/register
+POST /auth/verify-email
+
 POST /auth/login
 POST /auth/refresh
 POST /auth/logout
+
+POST /auth/forgot-password
+POST /auth/reset-password
+
+GET  /auth/profile
 ```
 
-### Items
+---
+
+## Items
 
 ```http
 GET    /api/items
 GET    /api/items/{id}
 GET    /api/items/my-items
-GET    /api/items/city/{cityId}
 
 POST   /api/items
 PUT    /api/items/{id}
 DELETE /api/items/{id}
 ```
 
-### Cities
+---
+
+## Search & Filter
+
+```http
+GET /api/items/search
+GET /api/items?cityId=
+GET /api/items?itemType=
+GET /api/items?itemStatus=
+```
+
+---
+
+## Cities
 
 ```http
 GET  /api/cities
@@ -126,52 +202,61 @@ POST /api/cities
 
 ---
 
-## 🛡️ Təhlükəsizlik
+# 🛡️ Təhlükəsizlik
 
 Layihədə aşağıdakı təhlükəsizlik mexanizmləri tətbiq edilmişdir:
 
 * JWT Authentication
-* Refresh Token mexanizmi
-* Protected Endpoints
-* Password Encryption
+* Refresh Token Rotation
+* Email Verification
+* BCrypt Password Encryption
+* Protected Routes
+* Spring Security Filter Chain
 * Request Validation
-* Authentication Filter Chain
+* Authentication Context Management
 
 ---
 
-## 📈 Gələcək İnkişaf Planları
+# 📈 Gələcək İnkişaf Planları
 
-* Email Verification
-* OTP təsdiqləmə sistemi
-* Email bildirişləri
-* Ətraflı axtarış sistemi
 * Admin Panel
 * Swagger / OpenAPI Documentation
 * Docker Deployment
-* Cloud Storage Integration
+* Cloud Storage (AWS S3 / Cloudinary)
 * Real-Time Notification System
+* Advanced Search
+* User Statistics Dashboard
+* Mobile Application
 
 ---
 
-## 👨‍💻 Layihə Haqqında
+# 👨‍💻 Layihə Haqqında
 
-Bu layihənin backend hissəsi tam olaraq müəllif tərəfindən Java və Spring Boot texnologiyalarından istifadə edilərək hazırlanmışdır.
+Bu layihənin backend hissəsi Java və Spring Boot texnologiyalarından istifadə edilərək hazırlanmışdır.
 
-Frontend hissəsinin dizayn və istifadəçi təcrübəsinin təkmilləşdirilməsi zamanı süni intellekt dəstəyindən istifadə edilmişdir.
+Layihə real dünya ssenarisinə uyğun olaraq JWT Authentication, Refresh Token, Email Verification, Password Recovery, Multipart File Upload və Matching System kimi funksionallıqları özündə birləşdirir.
 
-Layihənin əsas məqsədi Java Backend Development bacarıqlarını real dünya ssenarisində nümayiş etdirməkdir.
+Frontend hissəsi React və Tailwind CSS istifadə edilərək hazırlanmışdır.
+
+Layihənin əsas məqsədi Java Backend Development bacarıqlarını real layihə üzərində nümayiş etdirməkdir.
 
 ---
 
-## 👤 Müəllif
+# 👨‍💻 Author
 
 **Elshan Hatamov**
 
 Java Backend Developer
 
+### Technologies
+
+Java • Spring Boot • Spring Security • PostgreSQL • JWT • React
+
 GitHub:
+
 https://github.com/ElshanHatamov
 
 ---
 
 ⭐ Layihəni bəyəndinizsə repository-yə star verməyi unutmayın.
+
