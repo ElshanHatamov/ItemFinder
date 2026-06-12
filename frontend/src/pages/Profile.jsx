@@ -16,6 +16,8 @@ import {
     Loader2,
     Calendar,
     AlertCircle,
+    Lock,
+    KeyRound,
 } from 'lucide-react';
 
 const Profile = () => {
@@ -25,6 +27,12 @@ const Profile = () => {
     const [profile, setProfile] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+
+    const [oldPassword, setOldPassword] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    const [passwordMessage, setPasswordMessage] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+    const [changingPassword, setChangingPassword] = useState(false);
 
     useEffect(() => {
         fetchProfile();
@@ -52,6 +60,69 @@ const Profile = () => {
             );
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleChangePassword = async (e) => {
+        e.preventDefault();
+
+        setPasswordMessage('');
+        setPasswordError('');
+
+        if (!oldPassword.trim()) {
+            setPasswordError('Köhnə şifrə boş ola bilməz.');
+            return;
+        }
+
+        if (!newPassword.trim()) {
+            setPasswordError('Yeni şifrə boş ola bilməz.');
+            return;
+        }
+
+        if (newPassword.length < 8) {
+            setPasswordError('Yeni şifrə minimum 8 simvol olmalıdır.');
+            return;
+        }
+
+        setChangingPassword(true);
+
+        try {
+            const token = localStorage.getItem('access_token');
+
+            const response = await api.patch(
+                '/auth/change-password',
+                {
+                    oldPassword,
+                    newPassword,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            setPasswordMessage(
+                typeof response.data === 'string'
+                    ? response.data
+                    : 'Şifrə uğurla dəyişdirildi.'
+            );
+
+            setOldPassword('');
+            setNewPassword('');
+
+            setTimeout(async () => {
+                await logout();
+                navigate('/login');
+            }, 1500);
+        } catch (err) {
+            console.error('Şifrə dəyişdirilərkən xəta:', err);
+            setPasswordError(
+                err.response?.data?.message ||
+                'Şifrə dəyişdirilərkən xəta baş verdi.'
+            );
+        } finally {
+            setChangingPassword(false);
         }
     };
 
@@ -159,6 +230,94 @@ const Profile = () => {
                                 Aktiv
                             </div>
                         </div>
+                    </div>
+
+                    <div className="mb-10 p-6 md:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/60">
+                        <div className="flex items-center mb-6">
+                            <div className="w-12 h-12 rounded-2xl bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 flex items-center justify-center mr-4">
+                                <KeyRound size={24} />
+                            </div>
+
+                            <div>
+                                <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
+                                    Şifrəni dəyiş
+                                </h2>
+
+                                <p className="text-slate-500 dark:text-slate-400 text-sm">
+                                    Hesab təhlükəsizliyi üçün köhnə şifrənizi təsdiqləyin
+                                </p>
+                            </div>
+                        </div>
+
+                        {passwordError && (
+                            <div className="mb-5 p-4 bg-rose-50 dark:bg-rose-900/20 border border-rose-200 dark:border-rose-800 rounded-2xl text-rose-600 dark:text-rose-400 text-sm font-medium flex items-center">
+                                <AlertCircle size={18} className="mr-2" />
+                                {passwordError}
+                            </div>
+                        )}
+
+                        {passwordMessage && (
+                            <div className="mb-5 p-4 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-2xl text-emerald-600 dark:text-emerald-400 text-sm font-medium flex items-center">
+                                <CheckCircle size={18} className="mr-2" />
+                                {passwordMessage}
+                            </div>
+                        )}
+
+                        <form onSubmit={handleChangePassword} className="grid md:grid-cols-2 gap-5">
+                            <div>
+                                <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+                                    Köhnə şifrə
+                                </label>
+
+                                <div className="relative">
+                                    <Lock
+                                        size={18}
+                                        className="absolute left-4 top-4 text-slate-400"
+                                    />
+
+                                    <input
+                                        type="password"
+                                        value={oldPassword}
+                                        onChange={(e) => setOldPassword(e.target.value)}
+                                        placeholder="Köhnə şifrənizi yazın"
+                                        className="w-full pl-12 pr-4 py-4 rounded-2xl bg-white dark:bg-slate-900 border border-transparent focus:ring-2 focus:ring-primary-500 outline-none text-slate-900 dark:text-white"
+                                    />
+                                </div>
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+                                    Yeni şifrə
+                                </label>
+
+                                <div className="relative">
+                                    <Lock
+                                        size={18}
+                                        className="absolute left-4 top-4 text-slate-400"
+                                    />
+
+                                    <input
+                                        type="password"
+                                        value={newPassword}
+                                        onChange={(e) => setNewPassword(e.target.value)}
+                                        placeholder="Yeni şifrənizi yazın"
+                                        className="w-full pl-12 pr-4 py-4 rounded-2xl bg-white dark:bg-slate-900 border border-transparent focus:ring-2 focus:ring-primary-500 outline-none text-slate-900 dark:text-white"
+                                    />
+                                </div>
+                            </div>
+
+                            <button
+                                type="submit"
+                                disabled={changingPassword}
+                                className="md:col-span-2 w-full py-4 bg-primary-600 hover:bg-primary-700 disabled:bg-primary-400 text-white rounded-2xl font-bold transition-all shadow-xl shadow-primary-500/20 flex items-center justify-center"
+                            >
+                                {changingPassword ? (
+                                    <Loader2 size={22} className="animate-spin" />
+                                ) : (
+                                    'Şifrəni yenilə'
+                                )}
+                            </button>
+                        </form>
                     </div>
 
                     <div className="grid md:grid-cols-3 gap-5">

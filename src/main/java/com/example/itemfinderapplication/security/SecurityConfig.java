@@ -43,6 +43,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/auth/profile").authenticated()
                         .requestMatchers("/uploads/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/users").permitAll()
+                        .requestMatchers(HttpMethod.PATCH, "/auth/change-password").authenticated()
 
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/auth/verify-email").permitAll()

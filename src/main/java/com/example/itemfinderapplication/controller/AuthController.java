@@ -1,11 +1,9 @@
 package com.example.itemfinderapplication.controller;
 
-import com.example.itemfinderapplication.model.dto.request.LoginRequest;
-import com.example.itemfinderapplication.model.dto.request.RefreshRequest;
-import com.example.itemfinderapplication.model.dto.request.RegisterRequest;
-import com.example.itemfinderapplication.model.dto.request.VerifyEmailRequest;
+import com.example.itemfinderapplication.model.dto.request.*;
 import com.example.itemfinderapplication.model.dto.response.LoginResponse;
 import com.example.itemfinderapplication.model.dto.response.UserResponse;
+import com.example.itemfinderapplication.security.CustomUserDetails;
 import com.example.itemfinderapplication.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
@@ -16,8 +14,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-import com.example.itemfinderapplication.model.dto.request.ForgotPasswordRequest;
-import com.example.itemfinderapplication.model.dto.request.ResetPasswordRequest;
 
 @RestController
 @RequestMapping("/auth")
@@ -71,6 +67,14 @@ public class AuthController {
     ) {
         return ResponseEntity.ok(
                 authService.getProfile(userDetails.getUsername())
+        );
+    }
+
+    @PatchMapping("/change-password")
+    public ResponseEntity<String> changePassword(@Valid @RequestBody ChangePasswordRequest request,
+                                                 @AuthenticationPrincipal CustomUserDetails userDetails) {
+        return ResponseEntity.ok(
+                authService.changePassword(userDetails.getUsername(),request)
         );
     }
 }

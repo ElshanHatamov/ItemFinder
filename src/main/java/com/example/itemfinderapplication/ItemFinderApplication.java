@@ -9,7 +9,7 @@ import static org.springframework.data.web.config.EnableSpringDataWebSupport.Pag
 @SpringBootApplication
 @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO)
 public class ItemFinderApplication {
-    static void main(String[] args) {
+    public static void main(String[] args) {
         SpringApplication.run(ItemFinderApplication.class, args);
     }
 }

@@ -1,9 +1,7 @@
 package com.example.itemfinderapplication.service;
 
 import com.example.itemfinderapplication.enums.Role;
-import com.example.itemfinderapplication.exception.NotFoundException;
-import com.example.itemfinderapplication.model.dto.request.RegisterRequest;
-import com.example.itemfinderapplication.model.dto.request.VerifyEmailRequest;
+import com.example.itemfinderapplication.model.dto.request.*;
 import com.example.itemfinderapplication.model.dto.response.LoginResponse;
 import com.example.itemfinderapplication.model.dto.response.UserResponse;
 import com.example.itemfinderapplication.model.entity.RefreshToken;
@@ -20,8 +18,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import com.example.itemfinderapplication.model.dto.request.ForgotPasswordRequest;
-import com.example.itemfinderapplication.model.dto.request.ResetPasswordRequest;
 
 import java.time.LocalDateTime;
 
@@ -235,5 +231,19 @@ public class AuthService {
                 .phone(user.getPhone())
                 .createAt(String.valueOf(user.getCreateAt()))
                 .build();
+    }
+    public String changePassword(String email,ChangePasswordRequest passwordRequest) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Istifadəçi tapılmadı"));
+        if (!passwordEncoder.matches(passwordRequest.oldPassword(),user.getPassword())){
+            throw new RuntimeException("Köhnə şifrə yanlışdır");
+        }
+
+        user.setPassword(passwordEncoder.encode(passwordRequest.newPassword()));
+        refreshTokenService.deleteAllByUser(user);
+
+        userRepository.save(user);
+        return "Şifrə uğurla dəyişdirildi. Zəhmət olmasa yenidən daxil olun.";
+
     }
 }

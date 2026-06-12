@@ -37,16 +37,17 @@ out/
 .vscode/
 
 # Gmail şifrəsi və database parolları olan fayl GitHub-a getməsin
-### TƏHLÜKƏSİZLİK VƏ ÖZƏL TƏNZİMLƏMƏLƏR ###
-src/main/resources/application.yml
-src/main/resources/application.yaml
 
 # IntelliJ-nin bəzi gərəksiz kənar faylları
 .idea/
-*.iml
-# TƏHLÜKƏSİZLİK
-.env
-docker-compose.yml
 
+# Gmail şifrəsi və database parolları olan fayl GitHub-a getməsin
+# TƏHLÜKƏSİZLİK VƏ ÖZƏL TƏNZİMLƏMƏLƏR
+.env
+src/main/resources/application.yml
+src/main/resources/application.yaml
+application-local.yml
+application-local.yaml
+
+# Upload edilən şəkillər GitHub-a getməsin
 uploads/
-application.yml
