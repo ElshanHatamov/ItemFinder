@@ -30,9 +30,17 @@ public class JwtFilter extends OncePerRequestFilter {
                                     @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
 
+
+        // Frontene profile yerine baxmaq ucun bunu yazdim eks halda token olmadan buraxirdi buda bize 403 verirdi
         String path = request.getServletPath();
 
-        if (path.startsWith("/auth/")) {
+        if (path.equals("/auth/login")
+                || path.equals("/auth/register")
+                || path.equals("/auth/refresh")
+                || path.equals("/auth/forgot-password")
+                || path.equals("/auth/reset-password")
+                || path.equals("/auth/verify-email")) {
+
             filterChain.doFilter(request, response);
             return;
         }

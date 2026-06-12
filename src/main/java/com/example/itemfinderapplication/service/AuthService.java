@@ -1,9 +1,11 @@
 package com.example.itemfinderapplication.service;
 
 import com.example.itemfinderapplication.enums.Role;
+import com.example.itemfinderapplication.exception.NotFoundException;
 import com.example.itemfinderapplication.model.dto.request.RegisterRequest;
 import com.example.itemfinderapplication.model.dto.request.VerifyEmailRequest;
 import com.example.itemfinderapplication.model.dto.response.LoginResponse;
+import com.example.itemfinderapplication.model.dto.response.UserResponse;
 import com.example.itemfinderapplication.model.entity.RefreshToken;
 import com.example.itemfinderapplication.model.entity.User;
 import com.example.itemfinderapplication.repository.UserRepository;
@@ -222,5 +224,16 @@ public class AuthService {
         userRepository.save(user);
 
         return "Şifrə uğurla yeniləndi. Yeni şifrə ilə daxil ola bilərsiniz.";
+    }
+    public UserResponse getProfile(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Istifadeci tapılmadı"));
+        return UserResponse.builder()
+                .name(user.getName())
+                .surname(user.getSurname())
+                .email(user.getEmail())
+                .phone(user.getPhone())
+                .createAt(String.valueOf(user.getCreateAt()))
+                .build();
     }
 }

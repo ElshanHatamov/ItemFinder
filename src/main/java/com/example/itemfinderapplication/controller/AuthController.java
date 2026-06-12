@@ -5,16 +5,17 @@ import com.example.itemfinderapplication.model.dto.request.RefreshRequest;
 import com.example.itemfinderapplication.model.dto.request.RegisterRequest;
 import com.example.itemfinderapplication.model.dto.request.VerifyEmailRequest;
 import com.example.itemfinderapplication.model.dto.response.LoginResponse;
+import com.example.itemfinderapplication.model.dto.response.UserResponse;
 import com.example.itemfinderapplication.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.*;
 import com.example.itemfinderapplication.model.dto.request.ForgotPasswordRequest;
 import com.example.itemfinderapplication.model.dto.request.ResetPasswordRequest;
 
@@ -53,6 +54,7 @@ public class AuthController {
     public ResponseEntity<String> verifyEmail(@RequestBody VerifyEmailRequest emailRequest) {
         return ResponseEntity.ok(authService.verifyEmail(emailRequest));
     }
+
     @PostMapping("/forgot-password")
     public ResponseEntity<String> forgotPassword(@Valid @RequestBody ForgotPasswordRequest request) {
         return ResponseEntity.ok(authService.forgotPassword(request));
@@ -61,5 +63,14 @@ public class AuthController {
     @PostMapping("/reset-password")
     public ResponseEntity<String> resetPassword(@Valid @RequestBody ResetPasswordRequest request) {
         return ResponseEntity.ok(authService.resetPassword(request));
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<UserResponse> getProfile(
+            @AuthenticationPrincipal UserDetails userDetails
+    ) {
+        return ResponseEntity.ok(
+                authService.getProfile(userDetails.getUsername())
+        );
     }
 }

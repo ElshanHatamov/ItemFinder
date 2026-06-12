@@ -40,8 +40,10 @@ public class SecurityConfig {
                         // Qeydiyyat ve Giris endpointlre her kes gire bilsin
 
 
+                        .requestMatchers(HttpMethod.GET, "/auth/profile").authenticated()
                         .requestMatchers("/uploads/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/users").permitAll()
+
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/auth/verify-email").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/cities/**").permitAll()
