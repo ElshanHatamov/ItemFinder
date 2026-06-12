@@ -45,6 +45,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/users").permitAll()
                         .requestMatchers(HttpMethod.PATCH, "/auth/change-password").authenticated()
                         .requestMatchers(HttpMethod.GET, "/auth/profile/stats").authenticated()
+                        .requestMatchers(HttpMethod.PATCH, "/auth/profile").authenticated()
 
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/auth/verify-email").permitAll()

@@ -20,6 +20,7 @@ import {
     KeyRound,
     Search,
     MapPin,
+    Pencil,
 } from 'lucide-react';
 
 const Profile = () => {
@@ -30,6 +31,13 @@ const Profile = () => {
     const [stats, setStats] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+
+    const [name, setName] = useState('');
+    const [surname, setSurname] = useState('');
+    const [phone, setPhone] = useState('');
+    const [updatingProfile, setUpdatingProfile] = useState(false);
+    const [profileMessage, setProfileMessage] = useState('');
+    const [profileError, setProfileError] = useState('');
 
     const [oldPassword, setOldPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
@@ -62,14 +70,73 @@ const Profile = () => {
 
             setProfile(response.data);
             setStats(statsResponse.data);
+
+            setName(response.data.name || '');
+            setSurname(response.data.surname || '');
+            setPhone(response.data.phone || '');
         } catch (err) {
-            console.error('Profil məlumatları yüklənərkən xəta:', err);
             setError(
                 err.response?.data?.message ||
                 'Profil məlumatları yüklənərkən xəta baş verdi.'
             );
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleUpdateProfile = async (e) => {
+        e.preventDefault();
+
+        setProfileMessage('');
+        setProfileError('');
+
+        if (!name.trim()) {
+            setProfileError('Ad boş ola bilməz.');
+            return;
+        }
+
+        if (!surname.trim()) {
+            setProfileError('Soyad boş ola bilməz.');
+            return;
+        }
+
+        if (!phone.trim()) {
+            setProfileError('Telefon nömrəsi boş ola bilməz.');
+            return;
+        }
+
+        setUpdatingProfile(true);
+
+        try {
+            const token = localStorage.getItem('access_token');
+
+            const response = await api.patch(
+                '/auth/profile',
+                {
+                    name,
+                    surname,
+                    phone,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            setProfile(response.data);
+            setProfileMessage('Profil məlumatları uğurla yeniləndi.');
+
+            setTimeout(() => {
+                setProfileMessage('');
+            }, 3000);
+        } catch (err) {
+            setProfileError(
+                err.response?.data?.message ||
+                'Profil yenilənərkən xəta baş verdi.'
+            );
+        } finally {
+            setUpdatingProfile(false);
         }
     };
 
@@ -126,7 +193,6 @@ const Profile = () => {
                 navigate('/login');
             }, 1500);
         } catch (err) {
-            console.error('Şifrə dəyişdirilərkən xəta:', err);
             setPasswordError(
                 err.response?.data?.message ||
                 'Şifrə dəyişdirilərkən xəta baş verdi.'
@@ -242,12 +308,97 @@ const Profile = () => {
                         </div>
                     </div>
 
+                    <div className="mb-10 p-6 md:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/60">
+                        <div className="flex items-center mb-6">
+                            <div className="w-12 h-12 rounded-2xl bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 flex items-center justify-center mr-4">
+                                <Pencil size={24} />
+                            </div>
+
+                            <div>
+                                <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
+                                    Profili redaktə et
+                                </h2>
+
+                                <p className="text-slate-500 dark:text-slate-400 text-sm">
+                                    Ad, soyad və telefon məlumatlarınızı yeniləyin
+                                </p>
+                            </div>
+                        </div>
+
+                        {profileError && (
+                            <div className="mb-5 p-4 bg-rose-50 dark:bg-rose-900/20 border border-rose-200 dark:border-rose-800 rounded-2xl text-rose-600 dark:text-rose-400 text-sm font-medium flex items-center">
+                                <AlertCircle size={18} className="mr-2" />
+                                {profileError}
+                            </div>
+                        )}
+
+                        {profileMessage && (
+                            <div className="mb-5 p-4 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-2xl text-emerald-600 dark:text-emerald-400 text-sm font-medium flex items-center">
+                                <CheckCircle size={18} className="mr-2" />
+                                {profileMessage}
+                            </div>
+                        )}
+
+                        <form onSubmit={handleUpdateProfile} className="grid md:grid-cols-3 gap-5">
+                            <div>
+                                <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+                                    Ad
+                                </label>
+
+                                <input
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    placeholder="Ad"
+                                    className="w-full px-4 py-4 rounded-2xl bg-white dark:bg-slate-900 border border-transparent focus:ring-2 focus:ring-primary-500 outline-none text-slate-900 dark:text-white"
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+                                    Soyad
+                                </label>
+
+                                <input
+                                    value={surname}
+                                    onChange={(e) => setSurname(e.target.value)}
+                                    placeholder="Soyad"
+                                    className="w-full px-4 py-4 rounded-2xl bg-white dark:bg-slate-900 border border-transparent focus:ring-2 focus:ring-primary-500 outline-none text-slate-900 dark:text-white"
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+                                    Telefon
+                                </label>
+
+                                <input
+                                    value={phone}
+                                    onChange={(e) => setPhone(e.target.value)}
+                                    placeholder="Telefon"
+                                    className="w-full px-4 py-4 rounded-2xl bg-white dark:bg-slate-900 border border-transparent focus:ring-2 focus:ring-primary-500 outline-none text-slate-900 dark:text-white"
+                                />
+                            </div>
+
+                            <button
+                                type="submit"
+                                disabled={updatingProfile}
+                                className="md:col-span-3 w-full py-4 bg-primary-600 hover:bg-primary-700 disabled:bg-primary-400 text-white rounded-2xl font-bold transition-all shadow-xl shadow-primary-500/20 flex items-center justify-center"
+                            >
+                                {updatingProfile ? (
+                                    <Loader2 size={22} className="animate-spin" />
+                                ) : (
+                                    'Profili yenilə'
+                                )}
+                            </button>
+                        </form>
+                    </div>
+
                     <div className="grid md:grid-cols-3 gap-5 mb-10">
-                        <div className="p-6 rounded-3xl bg-primary-50 dark:bg-primary-900/20 border border-primary-100 dark:border-primary-800">
+                        <div className="p-6 rounded-3xl bg-primary-50 dark:bg-primary-900/20 border border-primary-100 dark:border-primary-800 hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
                             <div className="flex items-center justify-between mb-4">
                                 <Package size={30} className="text-primary-600" />
                                 <span className="text-xs font-bold text-primary-600 bg-white dark:bg-slate-900 px-3 py-1 rounded-full">
-                                    TOTAL
+                                    ÜMUMİ
                                 </span>
                             </div>
 
@@ -260,11 +411,11 @@ const Profile = () => {
                             </p>
                         </div>
 
-                        <div className="p-6 rounded-3xl bg-rose-50 dark:bg-rose-900/20 border border-rose-100 dark:border-rose-800">
+                        <div className="p-6 rounded-3xl bg-rose-50 dark:bg-rose-900/20 border border-rose-100 dark:border-rose-800 hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
                             <div className="flex items-center justify-between mb-4">
                                 <Search size={30} className="text-rose-600" />
                                 <span className="text-xs font-bold text-rose-600 bg-white dark:bg-slate-900 px-3 py-1 rounded-full">
-                                    LOST
+                                    İTMİŞ
                                 </span>
                             </div>
 
@@ -277,11 +428,11 @@ const Profile = () => {
                             </p>
                         </div>
 
-                        <div className="p-6 rounded-3xl bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-100 dark:border-emerald-800">
+                        <div className="p-6 rounded-3xl bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-100 dark:border-emerald-800 hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
                             <div className="flex items-center justify-between mb-4">
                                 <MapPin size={30} className="text-emerald-600" />
                                 <span className="text-xs font-bold text-emerald-600 bg-white dark:bg-slate-900 px-3 py-1 rounded-full">
-                                    FOUND
+                                    TAPILMIŞ
                                 </span>
                             </div>
 

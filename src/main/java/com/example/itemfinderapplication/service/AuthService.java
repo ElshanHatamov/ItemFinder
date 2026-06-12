@@ -261,4 +261,24 @@ public class AuthService {
 
         return new ProfileStatsResponse(totalItems, lostItems, foundItems);
     }
+
+    public UserResponse updateProfile(String email, UpdateProfileRequest profileRequest) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("İstifadəçi tapılmadı"));
+
+        user.setName(profileRequest.name());
+        user.setSurname(profileRequest.surname());
+        user.setPhone(profileRequest.phone());
+
+        User savedUser = userRepository.save(user);
+
+        return UserResponse.builder()
+                .id(savedUser.getId())
+                .name(savedUser.getName())
+                .surname(savedUser.getSurname())
+                .email(savedUser.getEmail())
+                .phone(savedUser.getPhone())
+                .createAt(String.valueOf(savedUser.getCreateAt()))
+                .build();
+    }
 }

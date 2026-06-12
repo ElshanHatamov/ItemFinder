@@ -86,4 +86,12 @@ public class AuthController {
                 authService.getProfileStats(userDetails.getUsername())
         );
     }
+    @PatchMapping("/profile")
+    public ResponseEntity<UserResponse> updateProfile(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @Valid @RequestBody UpdateProfileRequest profileRequest) {
+        return ResponseEntity.ok(
+                authService.updateProfile(userDetails.getUsername(),profileRequest)
+        );
+    }
 }
