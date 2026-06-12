@@ -21,8 +21,12 @@ services:
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=password123
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - FILE_UPLOAD_DIR=/app/uploads
+    volumes:
+      - app_uploads:/app/uploads
     depends_on:
       - db
 
 volumes:
   postgres_data:
+  app_uploads:
