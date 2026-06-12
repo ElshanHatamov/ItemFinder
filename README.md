@@ -25,6 +25,16 @@ Layihənin əsas məqsədi itmiş əşyaların sahiblərinə daha qısa müddət
 
 ---
 
+### 📍 Location & Smart City Detection
+
+* HTML5 Geolocation API inteqrasiyası
+* İstifadəçinin mövcud yerinin avtomatik müəyyən edilməsi
+* Şəhərin avtomatik seçilməsi
+* Manual şəhər seçimi dəstəyi
+* Location icazəsi verilmədikdə alternativ seçim imkanı
+
+---
+
 ## 📦 Əşya Elanları
 
 * İtmiş əşya elanı yaratmaq
@@ -51,14 +61,18 @@ Layihənin əsas məqsədi itmiş əşyaların sahiblərinə daha qısa müddət
 
 ---
 
-## 👤 İstifadəçi İdarəetməsi
+### 👤 İstifadəçi İdarəetməsi
 
 * Qeydiyyat
-* Email təsdiqlənməsi
+* Email Verification
 * Giriş
-* Çıxış (Logout)
+* JWT Authentication
+* Refresh Token mexanizmi
 * Profil məlumatlarının görüntülənməsi
-* Şifrə bərpası
+* Profil statistikaları
+* Şifrə dəyişdirmə
+* Forgot Password
+* Reset Password
 * İstifadəçi elanlarının idarə olunması
 
 ---
@@ -137,6 +151,7 @@ Layihədə aşağıdakı yanaşmalardan istifadə olunmuşdur:
 * React Router
 * Tailwind CSS
 * Lucide React Icons
+* HTML5 Geolocation API
 
 ---
 
@@ -207,25 +222,26 @@ POST /api/cities
 Layihədə aşağıdakı təhlükəsizlik mexanizmləri tətbiq edilmişdir:
 
 * JWT Authentication
-* Refresh Token Rotation
+* Access Token & Refresh Token
+* Spring Security
+* Password Encryption (BCrypt)
+* Protected Endpoints
+* Authentication Filter Chain
 * Email Verification
-* BCrypt Password Encryption
-* Protected Routes
-* Spring Security Filter Chain
+* Password Reset Token
 * Request Validation
-* Authentication Context Management
 
 ---
 
 # 📈 Gələcək İnkişaf Planları
 
 * Admin Panel
-* Swagger / OpenAPI Documentation
-* Docker Deployment
-* Cloud Storage (AWS S3 / Cloudinary)
+* Google Maps inteqrasiyası
+* Location əsaslı yaxın elanlar
 * Real-Time Notification System
-* Advanced Search
-* User Statistics Dashboard
+* Cloud Storage Integration
+* Docker Deployment
+* Elasticsearch əsaslı axtarış
 * Mobile Application
 
 ---
