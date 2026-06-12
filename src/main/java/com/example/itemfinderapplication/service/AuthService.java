@@ -18,6 +18,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import com.example.itemfinderapplication.enums.ItemStatus;
+import com.example.itemfinderapplication.model.dto.response.ProfileStatsResponse;
+import com.example.itemfinderapplication.repository.ItemRepository;
 
 import java.time.LocalDateTime;
 
@@ -33,6 +36,7 @@ public class AuthService {
     UserRepository userRepository;
     PasswordEncoder passwordEncoder;
     EmailService emailService;
+    ItemRepository itemRepository;
 
     public LoginResponse login(String email, String password) {
         Authentication auth = authenticationManager.authenticate(
@@ -170,6 +174,7 @@ public class AuthService {
 
         return "Email uğurla təsdiqləndi";
     }
+
     public String forgotPassword(ForgotPasswordRequest request) {
 
         User user = userRepository.findByEmail(request.email())
@@ -221,6 +226,7 @@ public class AuthService {
 
         return "Şifrə uğurla yeniləndi. Yeni şifrə ilə daxil ola bilərsiniz.";
     }
+
     public UserResponse getProfile(String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Istifadeci tapılmadı"));
@@ -232,10 +238,11 @@ public class AuthService {
                 .createAt(String.valueOf(user.getCreateAt()))
                 .build();
     }
-    public String changePassword(String email,ChangePasswordRequest passwordRequest) {
+
+    public String changePassword(String email, ChangePasswordRequest passwordRequest) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Istifadəçi tapılmadı"));
-        if (!passwordEncoder.matches(passwordRequest.oldPassword(),user.getPassword())){
+        if (!passwordEncoder.matches(passwordRequest.oldPassword(), user.getPassword())) {
             throw new RuntimeException("Köhnə şifrə yanlışdır");
         }
 
@@ -245,5 +252,13 @@ public class AuthService {
         userRepository.save(user);
         return "Şifrə uğurla dəyişdirildi. Zəhmət olmasa yenidən daxil olun.";
 
+    }
+
+    public ProfileStatsResponse getProfileStats(String email) {
+        long totalItems = itemRepository.countByUserEmail(email);
+        long lostItems = itemRepository.countByUserEmailAndStatus(email, ItemStatus.LOST);
+        long foundItems = itemRepository.countByUserEmailAndStatus(email, ItemStatus.FOUND);
+
+        return new ProfileStatsResponse(totalItems, lostItems, foundItems);
     }
 }

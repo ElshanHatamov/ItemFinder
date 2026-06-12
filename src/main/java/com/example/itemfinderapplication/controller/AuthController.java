@@ -2,6 +2,7 @@ package com.example.itemfinderapplication.controller;
 
 import com.example.itemfinderapplication.model.dto.request.*;
 import com.example.itemfinderapplication.model.dto.response.LoginResponse;
+import com.example.itemfinderapplication.model.dto.response.ProfileStatsResponse;
 import com.example.itemfinderapplication.model.dto.response.UserResponse;
 import com.example.itemfinderapplication.security.CustomUserDetails;
 import com.example.itemfinderapplication.service.AuthService;
@@ -75,6 +76,14 @@ public class AuthController {
                                                  @AuthenticationPrincipal CustomUserDetails userDetails) {
         return ResponseEntity.ok(
                 authService.changePassword(userDetails.getUsername(),request)
+        );
+    }
+    @GetMapping("/profile/stats")
+    public ResponseEntity<ProfileStatsResponse> getProfileStats(
+            @AuthenticationPrincipal CustomUserDetails userDetails
+    ) {
+        return ResponseEntity.ok(
+                authService.getProfileStats(userDetails.getUsername())
         );
     }
 }

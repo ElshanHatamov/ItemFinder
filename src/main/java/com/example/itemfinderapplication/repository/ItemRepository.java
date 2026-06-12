@@ -62,4 +62,9 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     // Item ile birlikde User ve City de evvelden yuklenir
     @EntityGraph(attributePaths = {"user", "city"})
     Page<Item> findAll(Pageable pageable);
+
+
+    long countByUserEmail(String email);
+
+    long countByUserEmailAndStatus(String email,ItemStatus status);
 }
