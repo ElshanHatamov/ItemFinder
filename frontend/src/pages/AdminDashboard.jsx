@@ -11,12 +11,16 @@ import {
     Phone,
     MapPin,
     Crown,
+    Search,
 } from 'lucide-react';
 
 const AdminDashboard = () => {
     const [users, setUsers] = useState([]);
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
+
+    const [userSearch, setUserSearch] = useState('');
+    const [itemSearch, setItemSearch] = useState('');
 
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [deleteType, setDeleteType] = useState(null);
@@ -29,6 +33,18 @@ const AdminDashboard = () => {
     useEffect(() => {
         fetchData();
     }, []);
+
+    const filteredUsers = users.filter((user) =>
+        `${user.name} ${user.surname} ${user.email} ${user.phone || ''}`
+            .toLowerCase()
+            .includes(userSearch.toLowerCase())
+    );
+
+    const filteredItems = items.filter((item) =>
+        `${item.title} ${item.ownerEmail} ${item.cityName || ''}`
+            .toLowerCase()
+            .includes(itemSearch.toLowerCase())
+    );
 
     const fetchData = async () => {
         setLoading(true);
@@ -192,9 +208,24 @@ const AdminDashboard = () => {
                             </h2>
                         </div>
 
+                        <div className="relative mb-6">
+                            <Search
+                                size={18}
+                                className="absolute left-4 top-4 text-slate-400"
+                            />
+
+                            <input
+                                type="text"
+                                value={userSearch}
+                                onChange={(e) => setUserSearch(e.target.value)}
+                                placeholder="Ad, soyad, email və ya telefon üzrə axtar..."
+                                className="w-full pl-12 pr-4 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-primary-500 outline-none text-slate-900 dark:text-white"
+                            />
+                        </div>
+
                         <div className="space-y-4 max-h-[520px] overflow-y-auto pr-2">
-                            {users.length > 0 ? (
-                                users.map((user) => (
+                            {filteredUsers.length > 0 ? (
+                                filteredUsers.map((user) => (
                                     <div
                                         key={user.id}
                                         className="p-5 rounded-3xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 hover:shadow-lg transition-all"
@@ -227,7 +258,7 @@ const AdminDashboard = () => {
                                 ))
                             ) : (
                                 <p className="text-slate-500 dark:text-slate-400">
-                                    İstifadəçi tapılmadı.
+                                    Axtarışa uyğun istifadəçi tapılmadı.
                                 </p>
                             )}
                         </div>
@@ -241,9 +272,24 @@ const AdminDashboard = () => {
                             </h2>
                         </div>
 
+                        <div className="relative mb-6">
+                            <Search
+                                size={18}
+                                className="absolute left-4 top-4 text-slate-400"
+                            />
+
+                            <input
+                                type="text"
+                                value={itemSearch}
+                                onChange={(e) => setItemSearch(e.target.value)}
+                                placeholder="Elan adı, email və ya şəhər üzrə axtar..."
+                                className="w-full pl-12 pr-4 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-primary-500 outline-none text-slate-900 dark:text-white"
+                            />
+                        </div>
+
                         <div className="space-y-4 max-h-[520px] overflow-y-auto pr-2">
-                            {items.length > 0 ? (
-                                items.map((item) => (
+                            {filteredItems.length > 0 ? (
+                                filteredItems.map((item) => (
                                     <div
                                         key={item.id}
                                         className="p-5 rounded-3xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 hover:shadow-lg transition-all"
@@ -276,7 +322,7 @@ const AdminDashboard = () => {
                                 ))
                             ) : (
                                 <p className="text-slate-500 dark:text-slate-400">
-                                    Elan tapılmadı.
+                                    Axtarışa uyğun elan tapılmadı.
                                 </p>
                             )}
                         </div>
