@@ -40,6 +40,7 @@ public class SecurityConfig {
                         // Qeydiyyat ve Giris endpointlre her kes gire bilsin
 
 
+                        .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                         .requestMatchers(HttpMethod.GET, "/auth/profile").authenticated()
                         .requestMatchers("/uploads/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/users").permitAll()
