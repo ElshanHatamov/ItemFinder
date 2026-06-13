@@ -62,7 +62,7 @@ public class AuthService {
         }
 
 
-        return new LoginResponse(accessToken, refreshToken.getToken());
+        return new LoginResponse(accessToken, refreshToken.getToken(),user.getRole().name());
 
 
     }
@@ -76,7 +76,7 @@ public class AuthService {
         String newAccessToken = jwtService.generateToken(user.getEmail());
         RefreshToken newRefreshToken = refreshTokenService.create(user);
 
-        return new LoginResponse(newAccessToken, newRefreshToken.getToken());
+        return new LoginResponse(newAccessToken, newRefreshToken.getToken(),user.getRole().name());
     }
 
     public void logout(String refreshToken) {
