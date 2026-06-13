@@ -61,7 +61,7 @@ Layihənin əsas məqsədi itmiş əşyaların sahiblərinə daha qısa müddət
 
 ---
 
-### 👤 İstifadəçi İdarəetməsi
+## 👤 İstifadəçi İdarəetməsi
 
 * Qeydiyyat
 * Email Verification
@@ -69,11 +69,37 @@ Layihənin əsas məqsədi itmiş əşyaların sahiblərinə daha qısa müddət
 * JWT Authentication
 * Refresh Token mexanizmi
 * Profil məlumatlarının görüntülənməsi
+* Profil məlumatlarının yenilənməsi
 * Profil statistikaları
 * Şifrə dəyişdirmə
 * Forgot Password
 * Reset Password
 * İstifadəçi elanlarının idarə olunması
+* Dark / Light Mode dəstəyi
+
+---
+
+## 👑 Admin Panel
+
+Admin istifadəçilər və elanlar üzərində tam nəzarət imkanına malikdir.
+
+### Admin imkanları
+
+* Bütün istifadəçiləri görüntüləmək
+* Bütün elanları görüntüləmək
+* İstənilən istifadəçini silmək
+* İstənilən elanı silmək
+* Öz hesabını silməyə qarşı qoruma
+* Role-Based Access Control (RBAC)
+
+### Admin Endpointləri
+
+```http
+GET    /admin/users
+GET    /admin/items
+
+DELETE /admin/users/{id}
+DELETE /admin/items/{id}
 
 ---
 
@@ -152,6 +178,12 @@ Layihədə aşağıdakı yanaşmalardan istifadə olunmuşdur:
 * Tailwind CSS
 * Lucide React Icons
 * HTML5 Geolocation API
+* Context API
+* Protected Routes
+* Role-Based UI Rendering
+* Dark / Light Theme
+* Responsive Design
+* Admin Dashboard
 
 ---
 
@@ -177,6 +209,9 @@ POST /auth/logout
 
 POST /auth/forgot-password
 POST /auth/reset-password
+
+PATCH /auth/profile
+PATCH /auth/change-password
 
 GET  /auth/profile
 ```
@@ -235,7 +270,6 @@ Layihədə aşağıdakı təhlükəsizlik mexanizmləri tətbiq edilmişdir:
 
 # 📈 Gələcək İnkişaf Planları
 
-* Admin Panel
 * Google Maps inteqrasiyası
 * Location əsaslı yaxın elanlar
 * Real-Time Notification System
@@ -250,7 +284,7 @@ Layihədə aşağıdakı təhlükəsizlik mexanizmləri tətbiq edilmişdir:
 
 Bu layihənin backend hissəsi Java və Spring Boot texnologiyalarından istifadə edilərək hazırlanmışdır.
 
-Layihə real dünya ssenarisinə uyğun olaraq JWT Authentication, Refresh Token, Email Verification, Password Recovery, Multipart File Upload və Matching System kimi funksionallıqları özündə birləşdirir.
+Layihə real dünya ssenarisinə uyğun olaraq JWT Authentication, Refresh Token Rotation, Email Verification, Password Recovery, Profile Management, Role-Based Authorization, Admin Dashboard, Multipart File Upload, Geolocation Integration və Matching System kimi funksionallıqları özündə birləşdirir.
 
 Frontend hissəsi React və Tailwind CSS istifadə edilərək hazırlanmışdır.
 
