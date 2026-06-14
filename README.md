@@ -1,5 +1,26 @@
-# 🚀 Qaytar.az
+<div align="center">
 
+# 🔍 Qaytar.az
+
+### Lost & Found Platform for Azerbaijan
+
+<img src="./screenshots/cover.png" width="100%"/>
+
+<br>
+
+![Java](https://img.shields.io/badge/Java-21-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
+
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)
+
+![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+
+![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=jsonwebtokens)
+
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38BDF8?style=for-the-badge&logo=tailwindcss&logoColor=white)
+
+</div>
 Azərbaycanda itmiş və tapılmış əşyaların paylaşılması, uyğun elanların avtomatik aşkarlanması və əşyaların sahiblərinə qaytarılmasını asanlaşdıran full-stack Lost & Found platforması.
 
 Qaytar.az istifadəçilərin itirdikləri və ya tapdıqları əşyalar haqqında elan yaratmasına, elanları idarə etməsinə, oxşar elanları tapmasına və əşya sahibləri ilə daha sürətli əlaqə qurmasına imkan verir.
@@ -100,7 +121,7 @@ GET    /admin/items
 
 DELETE /admin/users/{id}
 DELETE /admin/items/{id}
-
+```
 ---
 
 ## 🖼️ Şəkil Dəstəyi
@@ -154,18 +175,23 @@ Layihədə aşağıdakı yanaşmalardan istifadə olunmuşdur:
 
 ## Backend
 
-* Java 21
-* Spring Boot
-* Spring Security
-* Spring Data JPA
-* Hibernate
-* PostgreSQL
-* JWT Authentication
-* Refresh Token Authentication
-* Spring Mail
-* Lombok
-* Jakarta Validation
-* Gradle
+☕ Java 21
+
+🍃 Spring Boot
+
+🔐 Spring Security
+
+🗄 PostgreSQL
+
+🔑 JWT Authentication
+
+📨 Spring Mail
+
+📝 Lombok
+
+✅ Jakarta Validation
+
+⚙️ Gradle
 
 ---
 
