@@ -1,4 +1,16 @@
-# 🚀 Qaytar.az
+<div align="center">
+
+# 🔍 Qaytar.az
+
+### Lost & Found Platform for Azerbaijan
+
+<img src="./screenshots/cover.png" width="100%" />
+
+<br>
+
+<img src="https://skillicons.dev/icons?i=java,spring,postgres,react,vite,tailwind,docker,git,github" />
+
+</div>
 
 Azərbaycanda itmiş və tapılmış əşyaların paylaşılması, uyğun elanların avtomatik aşkarlanması və əşyaların sahiblərinə qaytarılmasını asanlaşdıran full-stack Lost & Found platforması.
 
@@ -100,7 +112,7 @@ GET    /admin/items
 
 DELETE /admin/users/{id}
 DELETE /admin/items/{id}
-
+```
 ---
 
 ## 🖼️ Şəkil Dəstəyi
@@ -154,18 +166,23 @@ Layihədə aşağıdakı yanaşmalardan istifadə olunmuşdur:
 
 ## Backend
 
-* Java 21
-* Spring Boot
-* Spring Security
-* Spring Data JPA
-* Hibernate
-* PostgreSQL
-* JWT Authentication
-* Refresh Token Authentication
-* Spring Mail
-* Lombok
-* Jakarta Validation
-* Gradle
+☕ Java 21
+
+🍃 Spring Boot
+
+🔐 Spring Security
+
+🗄 PostgreSQL
+
+🔑 JWT Authentication
+
+📨 Spring Mail
+
+📝 Lombok
+
+✅ Jakarta Validation
+
+⚙️ Gradle
 
 ---
 
