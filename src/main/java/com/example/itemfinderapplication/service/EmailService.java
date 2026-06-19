@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,6 +16,7 @@ public class EmailService {
 
     JavaMailSender mailSender;
 
+    @Async
     public void sendLoginNotification(String toEmail) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
 
@@ -35,6 +37,7 @@ public class EmailService {
         mailSender.send(mailMessage);
     }
 
+    @Async
     public void sendMatchingItemNotification(String toEmail, Item item) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
 
@@ -66,6 +69,7 @@ public class EmailService {
         mailSender.send(mailMessage);
     }
 
+    @Async
     public void sendVerificationCode(String toEmail, String code) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
 
@@ -90,6 +94,7 @@ public class EmailService {
 
         mailSender.send(mailMessage);
     }
+    @Async
     public void sendPasswordResetCode(String toEmail, String code) {
 
         SimpleMailMessage mailMessage = new SimpleMailMessage();

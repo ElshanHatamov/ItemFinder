@@ -7,6 +7,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class MatchingService {
     ItemRepository itemRepository;
     EmailService emailService;
 
+    @Async
     public void checkMatchingItems(Item savedItem) {
 
         ItemStatus oppositeStatus =
