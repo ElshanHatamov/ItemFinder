@@ -33,6 +33,8 @@ Layihənin əsas məqsədi itmiş əşyaların sahiblərinə daha qısa müddət
 * Email Verification (OTP Code)
 * Forgot Password & Reset Password sistemi
 * Login Notification Email
+* Environment Variables (.env)
+* Sensitive Configuration Hidden
 * İstifadəçi sessiyalarının təhlükəsiz idarə olunması
 
 ---
@@ -64,12 +66,17 @@ Layihənin əsas məqsədi itmiş əşyaların sahiblərinə daha qısa müddət
 
 ---
 
-## 🤝 Matching Sistemi
+## 🤝 Smart Matching System
 
-* İtmiş və tapılmış əşyaların avtomatik müqayisəsi
-* Şəhər və əşya növünə əsaslanan uyğunluq yoxlanışı
-* Oxşar elan tapıldıqda email bildirişi göndərilməsi
-* İstifadəçilər arasında əlaqənin sürətləndirilməsi
+İtmiş və tapılmış əşyaların avtomatik müqayisəsi
+
+Şəhər və əşya növünə əsaslanan uyğunluq analizi
+
+Yeni uyğun elan yaradıldıqda avtomatik Email Notification
+
+Asinxron (@Async) Matching prosesi
+
+İstifadəçi gözləmədən arxa planda uyğunluq yoxlanışı
 
 ---
 
@@ -134,6 +141,8 @@ Controller
     ↓
 Service
     ↓
+Mapper
+    ↓
 Repository
     ↓
 PostgreSQL
@@ -153,12 +162,13 @@ Protected Endpoints
 
 Layihədə aşağıdakı yanaşmalardan istifadə olunmuşdur:
 
-* DTO Pattern
-* Layered Architecture
-* JWT Authentication
-* Refresh Token Strategy
-* Dependency Injection
-* Repository Pattern
+DTO Pattern
+Mapper Pattern
+Layered Architecture
+JWT Authentication
+Refresh Token Strategy
+Dependency Injection
+Repository Pattern
 
 ---
 
@@ -305,7 +315,9 @@ Layihə real dünya ssenarisinə uyğun olaraq JWT Authentication, Refresh Token
 
 Frontend hissəsi React və Tailwind CSS istifadə edilərək hazırlanmışdır.
 
-Layihənin əsas məqsədi Java Backend Development bacarıqlarını real layihə üzərində nümayiş etdirməkdir.
+Layihə Layered Architecture, Mapper Pattern, JWT Authentication, Refresh Token Rotation, Email Verification, Asynchronous Processing və müasir Spring Boot yanaşmalarından istifadə edilərək hazırlanmış real dünya backend layihəsidir.
+
+Bu layihənin əsas məqsədi Java Backend Development bacarıqlarını real layihə üzərində nümayiş etdirmək və production səviyyəsinə yaxın arxitektura quruluşunu tətbiq etməkdir.
 
 ---
 
