@@ -4,6 +4,7 @@ import com.example.itemfinderapplication.enums.ItemStatus;
 import com.example.itemfinderapplication.enums.ItemType;
 import com.example.itemfinderapplication.exception.NotFoundException;
 import com.example.itemfinderapplication.exception.UnauthorizedActionException;
+import com.example.itemfinderapplication.mapper.ItemMapper;
 import com.example.itemfinderapplication.model.dto.request.ItemRequest;
 import com.example.itemfinderapplication.model.dto.request.ItemUpdateRequest;
 import com.example.itemfinderapplication.model.dto.response.ItemResponse;
@@ -37,6 +38,7 @@ public class ItemService {
     ItemRepository itemRepository;
     CityRepository cityRepository;
     UserRepository userRepository;
+    ItemMapper itemMapper;
     FileStorageService fileStorageService;
     MatchingService matchingService;
 
@@ -55,14 +57,12 @@ public class ItemService {
 
         String imageUrl = fileStorageService.saveFile(image);
 
-        Item item = new Item();
-        item.setTitle(request.getTitle());
-        item.setStatus(request.getItemStatus());
-        item.setItemType(request.getItemType());
-        item.setDescription(request.getDescription());
-        item.setCity(city);
-        item.setUser(owner);
-        item.setImageUrl(imageUrl);
+        Item item = itemMapper.toEntity(
+                request,
+                city,
+                owner,
+                imageUrl
+        );
         // createAt → @CreationTimestamp avtomatik yazilir
         Item saved = itemRepository.save(item);
 
@@ -70,35 +70,19 @@ public class ItemService {
                 saved.getId(), saved.getTitle(), saved.getStatus());
 
         matchingService.checkMatchingItems(saved);
-        return toResponse(saved);
+        return itemMapper.toResponse(saved);
     }
 
     public Page<ItemResponse> getAllItems(Pageable pageable) {
         return itemRepository.findAll(pageable)
-                .map(this::toResponse);
+                .map(itemMapper::toResponse);
     }
 
     public List<ItemResponse> getLostItemsByCity(Long cityId) {
         return itemRepository.findByCityIdAndStatus(cityId, ItemStatus.LOST)
                 .stream()
-                .map(this::toResponse)
+                .map(itemMapper::toResponse)
                 .collect(Collectors.toList());
-    }
-
-
-    private ItemResponse toResponse(Item item) {
-        return ItemResponse.builder()
-                .id(item.getId())
-                .title(item.getTitle())
-                .itemStatus(item.getStatus())
-                .itemType(item.getItemType())
-                .description(item.getDescription())
-                .cityName(item.getCity().getName())
-                .ownerEmail(item.getUser().getEmail())
-                .ownerPhone(item.getUser().getPhone())
-                .imageUrl(item.getImageUrl())
-                .createAt(item.getCreateAt())
-                .build();
 
     }
 
@@ -131,7 +115,7 @@ public class ItemService {
         }
         Item saved = itemRepository.save(item);
         log.info("Esya yenilendi: id={}, ownerEmail={}", saved.getId(), ownerEmail);
-        return toResponse(saved);
+        return itemMapper.toResponse(saved);
     }
 
     @Transactional
@@ -149,13 +133,13 @@ public class ItemService {
     public ItemResponse getItemById(Long id) {
         Item item = itemRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Mehsul Tapilmadi "));
-        return toResponse(item);
+        return itemMapper.toResponse(item);
     }
 
     public List<ItemResponse> getItemsByUser(String ownerEmail) {
         return itemRepository.findByUserEmail(ownerEmail)
                 .stream()
-                .map(this::toResponse)
+                .map(itemMapper::toResponse)
                 .collect(Collectors.toList());
 
     }
@@ -171,7 +155,7 @@ public class ItemService {
         }
         item.setStatus(ItemStatus.FOUND);
         Item saved = itemRepository.save(item);
-        return toResponse(saved);
+        return itemMapper.toResponse(saved);
 
     }
 
@@ -180,7 +164,7 @@ public class ItemService {
                                           ItemStatus itemStatus,
                                           Pageable pageable) {
         return itemRepository.searchItems(cityId, itemType, itemStatus, pageable)
-                .map(this::toResponse);
+                .map(itemMapper::toResponse);
     }
 
 }
